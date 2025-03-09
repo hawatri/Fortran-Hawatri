@@ -213,9 +213,8 @@ Fortran 77 has strict rules for comments:
 
 -   Blank lines are allowed but not considered comments
 
-```{=html}
 <!-- -->
-```
+
     C THIS IS A CLASSIC FORTRAN COMMENT
     * THIS VARIANT IS OFTEN USED FOR HEADERS
     ! SOME COMPILERS SUPPORT THIS (NON-STANDARD)
@@ -2457,7 +2456,7 @@ validates number
 **Security:** - PIN validation first - Balance check second - PARAMETER
 for secure PIN storage
 
-# LOOPS & LOOPS IN' FORTRAN77
+# LOOPS & LOOPS IN FORTRAN77
 
 ## Loops in Fortran 77
 
@@ -3513,9 +3512,8 @@ use cases:
 -   **Key Features**: - Dimensions specified with explicit bounds - Most
     common array type - Memory allocated at program start
 
-```{=html}
 <!-- -->
-```
+
     C 1D: 5 elements (indices 1-5)
     INTEGER SCORES(5)       
 
@@ -3537,9 +3535,8 @@ use cases:
     determined by calling program - Requires explicit interface in some
     cases
 
-```{=html}
 <!-- -->
-```
+
     SUBROUTINE PROCESS(VECTOR, N)
     INTEGER N, VECTOR(N)  ! Adjustable size
     ...
@@ -3556,9 +3553,8 @@ use cases:
 -   **Key Features**: - Last dimension can be asterisk - Limited to
     subprogram parameters - Avoid for complex operations
 
-```{=html}
 <!-- -->
-```
+
     SUBROUTINE PRINT_ARRAY(ARR, SIZE)
     REAL ARR(*)  ! Assumed-size array
     ...
@@ -3576,9 +3572,8 @@ Fortran uses **column-major** storage:
 
 -   Affects loop nesting order
 
-```{=html}
 <!-- -->
-```
+
     REAL MATRIX(3,3)  ! Stored as:
     ! (1,1), (2,1), (3,1), (1,2), (2,2), ...
 
@@ -3590,9 +3585,8 @@ Fortran uses **column-major** storage:
 
 -   Higher dimensions less common
 
-```{=html}
 <!-- -->
-```
+
     C 3D: 2x3x4 array
     INTEGER CUBE(2,3,4)
 
@@ -3609,9 +3603,8 @@ Fortran uses **column-major** storage:
 
 -   No automatic bounds checking
 
-```{=html}
 <!-- -->
-```
+
     REAL GRID(5,5)
     GRID(2,3) = 4.5  ! Single element
 
@@ -3623,9 +3616,8 @@ Fortran uses **column-major** storage:
 
 -   Fortran 77 requires explicit loops
 
-```{=html}
 <!-- -->
-```
+
     INTEGER ARR(10), SUB(5)
     DO 10 I = 1,5
         SUB(I) = ARR(I+2)  ! Elements 3-7
@@ -3639,9 +3631,8 @@ Fortran uses **column-major** storage:
 
 -   Useful for mathematical indices
 
-```{=html}
 <!-- -->
-```
+
     REAL WAVE(-100:100)  ! 201 elements
     WAVE(-100) = 0.0     ! First element
 
@@ -3651,9 +3642,8 @@ Fortran uses **column-major** storage:
 
 -   Different from character arrays in C
 
-```{=html}
 <!-- -->
-```
+
     CHARACTER*15 NAMES(50)  ! 50 names, 15 chars each
     NAMES(1)(1:5) = 'John '  ! Access substring
 
@@ -3665,9 +3655,8 @@ Fortran uses **column-major** storage:
 
 -   Actual and dummy arrays must match rank
 
-```{=html}
 <!-- -->
-```
+
     CALL PRINT_MATRIX(MATRIX)  ! Main program
 
     SUBROUTINE PRINT_MATRIX(ARR)
@@ -4114,3 +4103,2922 @@ Nested input/output loops
 
 **Optimization:** - Early exit if no swaps - Outer loop reduces range -
 In-place sorting
+
+# Functions in Fortran 77
+
+### Introduction to Functions {#introduction-to-functions .unnumbered}
+
+Functions in Fortran 77 are subprograms that:
+
+-   Return a single value
+
+-   Can accept input arguments
+
+-   Improve code modularity and reusability
+
+-   Are categorized as:
+
+    -   Intrinsic (built-in)
+
+    -   External (user-defined)
+
+    -   Statement (single-expression)
+
+### 1. Intrinsic Functions {#intrinsic-functions .unnumbered}
+
+Predefined by the language:
+
+    C     EXAMPLE OF INTRINSIC FUNCTIONS
+          PROGRAM INTRINSIC
+          REAL X, Y
+          X = 2.5
+          Y = SQRT(X)      ! Square root
+          WRITE(*,*) SIN(X), EXP(Y)  ! Sine and exponential
+          STOP
+          END
+
+### 2. External Functions {#external-functions .unnumbered}
+
+User-defined functions in separate program units:
+
+#### Function Definition {#function-definition .unnumbered}
+
+    C     FUNCTION TO CALCULATE AREA OF CIRCLE
+          REAL FUNCTION AREA(R)
+          REAL R, PI
+          PARAMETER (PI = 3.14159)
+          AREA = PI * R**2
+          RETURN
+          END
+
+#### Function Usage {#function-usage .unnumbered}
+
+    C     MAIN PROGRAM
+          PROGRAM MAIN
+          REAL RADIUS, AREA
+          WRITE(*,*) 'ENTER RADIUS:'
+          READ(*,*) RADIUS
+          WRITE(*,*) 'AREA:', AREA(RADIUS)
+          STOP
+          END
+
+### 3. Statement Functions {#statement-functions .unnumbered}
+
+Single-line functions defined in declaration section:
+
+    C     SIMPLE STATEMENT FUNCTION
+          PROGRAM STMT
+          REAL X, Y, AVG
+          AVG(A,B) = (A + B)/2.0  ! Statement function
+          
+          X = 5.0
+          Y = 7.0
+          WRITE(*,*) 'AVERAGE:', AVG(X,Y)
+          STOP
+          END
+
+### Function Declaration Rules {#function-declaration-rules .unnumbered}
+
+-   Return type declared in function definition
+
+        REAL FUNCTION NAME(...)
+
+-   Must be declared in calling program if:
+
+    -   Return type doesn't match implicit naming
+
+    -   Function is external
+
+-   Arguments passed by reference
+
+### Argument Passing Example {#argument-passing-example .unnumbered}
+
+    C     FUNCTION WITH MULTIPLE PARAMETERS
+          REAL FUNCTION POWER(BASE, EXP)
+          REAL BASE
+          INTEGER EXP
+          POWER = BASE**EXP
+          RETURN
+          END
+
+    C     MAIN PROGRAM
+          PROGRAM MAIN
+          REAL POWER, RESULT
+          RESULT = POWER(2.5, 3)
+          WRITE(*,*) '2.5^3 =', RESULT
+          STOP
+          END
+
+### 4. Type Declaration in Calling Program {#type-declaration-in-calling-program .unnumbered}
+
+    C     EXPLICIT TYPE DECLARATION
+          PROGRAM TYPE_DEC
+          REAL VOLUME  ! Function returns REAL
+          WRITE(*,*) 'VOLUME:', VOLUME(5.0)
+          STOP
+          END
+
+          REAL FUNCTION VOLUME(R)
+          REAL R
+          VOLUME = (4.0/3.0) * 3.14159 * R**3
+          RETURN
+          END
+
+### 5. Common Function Errors {#common-function-errors .unnumbered}
+
+-   **Implicit Type Mismatch**:
+
+        FUNCTION TEST()  ! Implicit REAL
+        ...
+        INTEGER TEST    ! Conflict in calling program
+
+-   **Missing Declaration**:
+
+        C     MAIN PROGRAM
+              PROGRAM ERR
+              WRITE(*,*) FUNC(2)  ! FUNC not declared
+              STOP
+              END
+
+              INTEGER FUNCTION FUNC(X)
+        ...
+
+-   **Argument Count Mismatch**:
+
+        CALL AREA(5.0, RESULT)  ! AREA expects 1 argument
+
+### 6. Functions vs Subroutines {#functions-vs-subroutines .unnumbered}
+
+::: center
+  **Functions**            **Subroutines**
+  ------------------------ ----------------------
+  Return one value         No return value
+  Used in expressions      Called with CALL
+  Can't modify arguments   Can modify arguments
+:::
+
+### 7. Best Practices {#best-practices-11 .unnumbered}
+
+-   Always declare function return types explicitly
+
+-   Use meaningful function names
+
+-   Document argument types and purposes
+
+-   Avoid modifying input arguments
+
+-   Use statement functions only for simple operations
+
+### 8. Advanced Example {#advanced-example .unnumbered}
+
+    C     RECURSIVE FACTORIAL (SIMULATED)
+          PROGRAM RECUR
+          INTEGER N, FACT
+          WRITE(*,*) 'ENTER NUMBER:'
+          READ(*,*) N
+          WRITE(*,*) N, '! =', FACT(N)
+          STOP
+          END
+
+          INTEGER FUNCTION FACT(K)
+          INTEGER K
+          IF (K .LE. 1) THEN
+              FACT = 1
+          ELSE
+              FACT = K * FACT(K-1)
+          END IF
+          RETURN
+          END
+
+**Note:** Fortran 77 doesn't officially support recursion - this may
+require compiler-specific settings.
+
+### 9. Function Libraries {#function-libraries .unnumbered}
+
+Group related functions into files:
+
+    C     MATH_OPERATIONS.F
+          REAL FUNCTION AREA(R)
+          ...
+          END
+
+          REAL FUNCTION VOLUME(R)
+          ...
+          END
+
+Include in main program:
+
+          PROGRAM GEOM
+          REAL AREA, VOLUME
+          ...
+          END
+
+## Implicit vs. Explicit Functions in Fortran 77
+
+### 1. Implicit Functions {#implicit-functions .unnumbered}
+
+Functions that rely on Fortran's default typing rules, where:
+
+-   Function type is determined by first letter of name
+
+-   I-N: INTEGER (default)
+
+-   A-H, O-Z: REAL (default)
+
+-   No explicit type declaration required
+
+#### Example 1: Implicit Real Function {#example-1-implicit-real-function .unnumbered}
+
+    C     IMPLICIT REAL FUNCTION (NAME STARTS WITH 'A')
+          FUNCTION AVG(X, Y)
+          AVG = (X + Y) / 2.0
+          RETURN
+          END
+
+    C     MAIN PROGRAM
+          PROGRAM MAIN
+          WRITE(*,*) 'AVERAGE:', AVG(5.0, 7.0)
+          STOP
+          END
+
+**Behavior:** - Function name 'AVG' starts with A → REAL - No type
+declaration in function definition - Works but prone to errors
+
+#### Example 2: Implicit Integer Function {#example-2-implicit-integer-function .unnumbered}
+
+    C     IMPLICIT INTEGER FUNCTION (NAME STARTS WITH 'I')
+          FUNCTION ICOUNT(X)
+          ICOUNT = INT(X) + 5
+          RETURN
+          END
+
+    C     MAIN PROGRAM
+          PROGRAM MAIN
+          WRITE(*,*) 'COUNT:', ICOUNT(3.7)  ! Output: 8
+          STOP
+          END
+
+**Risk:** - Return type inferred from name - Easy to create type
+mismatches
+
+### 2. Explicit Functions {#explicit-functions .unnumbered}
+
+Functions with declared return types:
+
+-   Type specified in function definition
+
+-   Must be declared in calling program
+
+-   Recommended for code clarity
+
+#### Example 1: Explicit Real Function {#example-1-explicit-real-function .unnumbered}
+
+    C     EXPLICIT TYPE DECLARATION
+          REAL FUNCTION AREA(R)
+          REAL R, PI
+          PARAMETER (PI = 3.14159)
+          AREA = PI * R**2
+          RETURN
+          END
+
+    C     MAIN PROGRAM
+          PROGRAM MAIN
+          REAL AREA  ! MUST DECLARE IN CALLING UNIT
+          WRITE(*,*) 'AREA:', AREA(2.5)
+          STOP
+          END
+
+**Advantages:** - Clear return type declaration - Compiler checks type
+consistency - Avoids naming conflicts
+
+#### Example 2: Explicit Integer Function {#example-2-explicit-integer-function .unnumbered}
+
+    C     EXPLICIT INTEGER FUNCTION
+          INTEGER FUNCTION FACT(N)
+          INTEGER N, I
+          FACT = 1
+          DO 10 I = 1, N
+              FACT = FACT * I
+    10    CONTINUE
+          RETURN
+          END
+
+    C     MAIN PROGRAM
+          PROGRAM MAIN
+          INTEGER FACT  ! REQUIRED DECLARATION
+          WRITE(*,*) '5! =', FACT(5)
+          STOP
+          END
+
+### 3. Key Differences {#key-differences .unnumbered}
+
+::: center
+  **Feature**      **Implicit**   **Explicit**
+  ---------------- -------------- --------------
+  Declaration      Name-based     Explicit
+  Type Safety      Low            High
+  Readability      Poor           Good
+  Error Checking   Limited        Strict
+  Legacy Code      Common         Rare
+:::
+
+### 4. Common Pitfalls with Implicit Functions {#common-pitfalls-with-implicit-functions .unnumbered}
+
+#### Type Mismatch Example {#type-mismatch-example .unnumbered}
+
+    C     DANGEROUS IMPLICIT CONVERSION
+          FUNCTION TOTAL(X, Y)
+          TOTAL = X + Y  ! Implicit REAL return
+          RETURN
+          END
+
+    C     MAIN PROGRAM
+          PROGRAM MAIN
+          INTEGER TOTAL  ! WRONG TYPE DECLARATION
+          WRITE(*,*) TOTAL(2, 3)  ! Output: 0 (incorrect)
+          STOP
+          END
+
+**Result:** - Function returns REAL but main program expects INTEGER -
+Undefined behavior occurs
+
+#### Fixing with Explicit Declaration {#fixing-with-explicit-declaration .unnumbered}
+
+          REAL FUNCTION TOTAL(X, Y)
+          INTEGER X, Y
+          TOTAL = REAL(X) + REAL(Y)
+          RETURN
+          END
+
+    C     MAIN PROGRAM
+          PROGRAM MAIN
+          REAL TOTAL  ! CORRECT DECLARATION
+          WRITE(*,*) TOTAL(2, 3)  ! Output: 5.0
+          STOP
+          END
+
+### 5. Best Practices {#best-practices-12 .unnumbered}
+
+-   **Always Use Explicit Functions**:
+
+        REAL FUNCTION NAME(...)  ! Preferred
+
+-   **Use IMPLICIT NONE**:
+
+        PROGRAM MAIN
+        IMPLICIT NONE  ! Disables default typing
+        REAL :: VALUE
+        ...
+        END
+
+-   **Declare Functions in Calling Units**:
+
+        PROGRAM MAIN
+        REAL EXTERNAL_FUNC  ! Declaration
+        ...
+        END
+
+-   **Document Function Interfaces**:
+
+        C     FUNCTION: CALCULATE_VELOCITY
+        C     INPUT: MASS (REAL), FORCE (REAL)
+        C     OUTPUT: VELOCITY (REAL)
+              REAL FUNCTION VELOCITY(MASS, FORCE)
+              ...
+
+### 6. Advanced Example: Type Conversion {#advanced-example-type-conversion .unnumbered}
+
+    C     EXPLICIT TYPE CONVERSION FUNCTION
+          CHARACTER*20 FUNCTION STR(NUM)
+          REAL NUM
+          WRITE(STR, '(F10.2)') NUM
+          RETURN
+          END
+
+    C     MAIN PROGRAM
+          PROGRAM MAIN
+          CHARACTER*20 STR
+          WRITE(*,*) 'FORMATTED:', STR(123.456)
+          STOP
+          END
+
+**Output:** `123.46`
+
+### 7. Function Type Declaration Table {#function-type-declaration-table .unnumbered}
+
+::: center
+  **Declaration**    **Return Type**    **Example**
+  ------------------ ------------------ --------------------------
+  REAL FUNCTION      Single-precision   REAL FUNC()
+  DOUBLE PRECISION   Double-precision   DOUBLE PRECISION DFUNC()
+  INTEGER FUNCTION   Integer            INTEGER IFUNC()
+  LOGICAL FUNCTION   Boolean            LOGICAL TEST()
+  CHARACTER\*N       String             CHARACTER\*10 CFUNC()
+:::
+
+### 8. Conversion Checklist {#conversion-checklist .unnumbered}
+
+When converting implicit to explicit:
+
+1.  Add explicit type declaration to function
+
+2.  Declare function in all calling units
+
+3.  Check argument types match
+
+4.  Use IMPLICIT NONE to catch errors
+
+5.  Test with edge cases
+
+## More Functions vs. Subroutines in Fortran 77
+
+### 1. Fundamental Definitions {#fundamental-definitions .unnumbered}
+
+-   **Function**: - Returns a single value - Invoked within
+    expressions - Typically used for calculations - Example: `SQRT(X)`,
+    `SIN(X)`
+
+-   **Subroutine**: - Does not return a value directly - Invoked with
+    `CALL` statement - Can modify multiple arguments - Example:
+    `CALL SWAP(A, B)`
+
+### 2. Key Differences {#key-differences-1 .unnumbered}
+
+::: center
+  **Feature**        **Function**              **Subroutine**
+  ------------------ ------------------------- -------------------------
+  Return Value       Single value              None (void)
+  Invocation         In expressions            With `CALL`
+  Arguments          Input parameters          Input/Output parameters
+  Side Effects       Should avoid              Expected
+  Return Method      Assign to function name   Modify arguments
+  Multiple Returns   Impossible                Possible via arguments
+:::
+
+### 3. Function Examples {#function-examples .unnumbered}
+
+#### Example 1: Basic Function {#example-1-basic-function .unnumbered}
+
+    C     FUNCTION TO CALCULATE AREA
+          REAL FUNCTION AREA(R)
+          REAL R, PI
+          PARAMETER (PI = 3.14159)
+          AREA = PI * R**2
+          RETURN
+          END
+
+    C     MAIN PROGRAM
+          PROGRAM MAIN
+          REAL AREA, RADIUS
+          RADIUS = 5.0
+          WRITE(*,*) 'AREA:', AREA(RADIUS)
+          STOP
+          END
+
+#### Example 2: Type-Specific Function {#example-2-type-specific-function .unnumbered}
+
+    C     INTEGER FUNCTION
+          INTEGER FUNCTION IFACT(N)
+          INTEGER N, I
+          IFACT = 1
+          DO 10 I = 1, N
+              IFACT = IFACT * I
+    10    CONTINUE
+          RETURN
+          END
+
+### 4. Subroutine Examples {#subroutine-examples .unnumbered}
+
+#### Example 1: Basic Subroutine {#example-1-basic-subroutine .unnumbered}
+
+    C     SUBROUTINE TO SWAP VALUES
+          SUBROUTINE SWAP(A, B)
+          REAL A, B, TEMP
+          TEMP = A
+          A = B
+          B = TEMP
+          RETURN
+          END
+
+    C     MAIN PROGRAM
+          PROGRAM MAIN
+          REAL X, Y
+          X = 5.0
+          Y = 10.0
+          CALL SWAP(X, Y)
+          WRITE(*,*) 'X=', X, 'Y=', Y
+          STOP
+          END
+
+#### Example 2: Multi-Output Subroutine {#example-2-multi-output-subroutine .unnumbered}
+
+    C     CALCULATE STATISTICS
+          SUBROUTINE STATS(ARR, N, AVG, MAX)
+          REAL ARR(N), AVG, MAX
+          INTEGER N, I
+          AVG = 0.0
+          MAX = ARR(1)
+          DO 20 I = 1, N
+              AVG = AVG + ARR(I)
+              IF (ARR(I) .GT. MAX) MAX = ARR(I)
+    20    CONTINUE
+          AVG = AVG / REAL(N)
+          RETURN
+          END
+
+    C     MAIN PROGRAM
+          PROGRAM MAIN
+          REAL NUMBERS(5), AVERAGE, MAXIMUM
+          DATA NUMBERS /2.0, 5.0, 7.0, 3.0, 1.0/
+          CALL STATS(NUMBERS, 5, AVERAGE, MAXIMUM)
+          WRITE(*,*) 'AVG:', AVERAGE, 'MAX:', MAXIMUM
+          STOP
+          END
+
+### 5. Argument Handling Comparison {#argument-handling-comparison .unnumbered}
+
+#### Function Argument Handling {#function-argument-handling .unnumbered}
+
+    C     FUNCTION WITH INPUT ARGUMENTS
+          REAL FUNCTION POWER(BASE, EXP)
+          REAL BASE
+          INTEGER EXP
+          POWER = BASE ** EXP
+          RETURN
+          END
+
+**Note**: Functions should not modify input arguments
+
+#### Subroutine Argument Handling {#subroutine-argument-handling .unnumbered}
+
+    C     SUBROUTINE MODIFYING ARGUMENTS
+          SUBROUTINE PROCESS(X, Y, Z)
+          REAL X, Y, Z
+          X = X * 2
+          Y = Y / 2
+          Z = X + Y
+          RETURN
+          END
+
+**Note**: Subroutines frequently modify arguments
+
+### 6. When to Use Each {#when-to-use-each .unnumbered}
+
+-   **Use Functions When**: - Need to return a single value - Performing
+    mathematical calculations - Want to use result in expressions -
+    Example: `AREA = CIRCLE_AREA(R)`
+
+-   **Use Subroutines When**: - Need to return multiple values -
+    Modifying existing variables - Performing I/O operations - Example:
+    `CALL SORT(ARRAY, N)`
+
+### 7. Advanced Differences {#advanced-differences .unnumbered}
+
+#### Memory Management {#memory-management .unnumbered}
+
+-   Functions: Generally use temporary storage
+
+-   Subroutines: Often work directly on arguments
+
+#### Error Handling {#error-handling .unnumbered}
+
+    C     SUBROUTINE WITH ERROR FLAG
+          SUBROUTINE DIVIDE(A, B, RES, ERROR)
+          REAL A, B, RES
+          LOGICAL ERROR
+          ERROR = .FALSE.
+          IF (B .EQ. 0.0) THEN
+              ERROR = .TRUE.
+              RETURN
+          END IF
+          RES = A / B
+          RETURN
+          END
+
+### 8. Common Mistakes {#common-mistakes-2 .unnumbered}
+
+#### Function Modifying Arguments {#function-modifying-arguments .unnumbered}
+
+    C     DANGEROUS FUNCTION
+          REAL FUNCTION BADFUNC(X)
+          REAL X
+          X = X * 2  ! Modifying input argument
+          BADFUNC = X
+          RETURN
+          END
+
+**Risk**: Unintended side effects
+
+#### Using Subroutine as Function {#using-subroutine-as-function .unnumbered}
+
+    C     INCORRECT USAGE
+          PROGRAM ERR
+          REAL RES
+          RES = SUBR()  ! Can't assign subroutine
+          STOP
+          END
+
+          SUBROUTINE SUBR()
+          ...
+          END
+
+### 9. Best Practices {#best-practices-13 .unnumbered}
+
+-   Use functions for pure calculations
+
+-   Use subroutines for I/O and multi-value returns
+
+-   Always declare function types explicitly
+
+-   Document argument intent:
+
+          C     INPUT: X, OUTPUT: Y, INPUT/OUTPUT: Z
+
+-   Avoid global variables in functions
+
+### 10. Hybrid Example {#hybrid-example .unnumbered}
+
+    C     FUNCTION USING SUBROUTINE
+          REAL FUNCTION SMART\_CALC(A, B)
+          REAL A, B
+          CALL PREPROCESS(A, B)
+          SMART\_CALC = A ** 2 + B ** 2
+          RETURN
+          END
+
+          SUBROUTINE PREPROCESS(X, Y)
+          REAL X, Y
+          X = ABS(X)
+          Y = ABS(Y)
+          RETURN
+          END
+
+### 11. Performance Considerations {#performance-considerations-1 .unnumbered}
+
+-   Functions better for inlining small calculations
+
+-   Subroutines better for complex operations
+
+-   Argument passing overhead similar for both
+
+-   Use subroutines for memory-intensive operations
+
+## Functions and Arrays in Fortran 77
+
+### 1. Passing Arrays to Functions {#passing-arrays-to-functions .unnumbered}
+
+Fortran 77 allows arrays to be passed to functions and subroutines. Key
+considerations:
+
+-   Arrays are passed by reference (modifications affect the original)
+
+-   Size must be declared explicitly or passed as an argument
+
+-   Use adjustable arrays with `DIMENSION` or size parameters
+
+#### Example 1: Sum of Array Elements (Function) {#example-1-sum-of-array-elements-function .unnumbered}
+
+    C     FUNCTION TO CALCULATE ARRAY SUM
+          REAL FUNCTION ARRAY_SUM(ARR, N)
+          INTEGER N
+          REAL ARR(N)
+          INTEGER I
+          ARRAY_SUM = 0.0
+          DO 10 I = 1, N
+              ARRAY_SUM = ARRAY_SUM + ARR(I)
+    10    CONTINUE
+          RETURN
+          END
+
+    C     MAIN PROGRAM
+          PROGRAM MAIN
+          PARAMETER (SIZE = 5)
+          REAL NUMBERS(SIZE), ARRAY_SUM
+          DATA NUMBERS /1.0, 2.0, 3.0, 4.0, 5.0/
+          WRITE(*,*) 'SUM:', ARRAY_SUM(NUMBERS, SIZE)
+          STOP
+          END
+
+### 2. Multi-Dimensional Arrays {#multi-dimensional-arrays-2 .unnumbered}
+
+#### Example 2: Matrix Trace (Function) {#example-2-matrix-trace-function .unnumbered}
+
+    C     FUNCTION TO CALCULATE MATRIX TRACE
+          REAL FUNCTION TRACE(MAT, N)
+          INTEGER N
+          REAL MAT(N,N)
+          INTEGER I
+          TRACE = 0.0
+          DO 20 I = 1, N
+              TRACE = TRACE + MAT(I,I)
+    20    CONTINUE
+          RETURN
+          END
+
+    C     MAIN PROGRAM
+          PROGRAM MAIN
+          PARAMETER (N = 3)
+          REAL MATRIX(N,N), TRACE
+          DATA MATRIX /1.0, 2.0, 3.0,
+         *             4.0, 5.0, 6.0,
+         *             7.0, 8.0, 9.0/
+          WRITE(*,*) 'TRACE:', TRACE(MATRIX, N)
+          STOP
+          END
+
+### 3. Returning Arrays via Subroutines {#returning-arrays-via-subroutines .unnumbered}
+
+While functions cannot return arrays directly, subroutines can modify
+array arguments:
+
+    C     SUBROUTINE TO DOUBLE ARRAY ELEMENTS
+          SUBROUTINE DOUBLE_ARRAY(ARR, N)
+          INTEGER N
+          REAL ARR(N)
+          INTEGER I
+          DO 30 I = 1, N
+              ARR(I) = ARR(I) * 2.0
+    30    CONTINUE
+          RETURN
+          END
+
+    C     MAIN PROGRAM
+          PROGRAM MAIN
+          PARAMETER (SIZE = 4)
+          REAL DATA(SIZE)
+          DATA DATA /1.0, 2.0, 3.0, 4.0/
+          CALL DOUBLE_ARRAY(DATA, SIZE)
+          WRITE(*,*) 'DOUBLED ARRAY:', DATA
+          STOP
+          END
+
+### 4. Adjustable Arrays {#adjustable-arrays-1 .unnumbered}
+
+Use `DIMENSION` for flexible array handling in subprograms:
+
+    C     FUNCTION TO FIND MAXIMUM VALUE
+          REAL FUNCTION ARRAY_MAX(ARR, N)
+          INTEGER N
+          REAL ARR(N)
+          DIMENSION ARR(N)
+          INTEGER I
+          ARRAY_MAX = ARR(1)
+          DO 40 I = 2, N
+              IF (ARR(I) .GT. ARRAY_MAX) THEN
+                  ARRAY_MAX = ARR(I)
+              END IF
+    40    CONTINUE
+          RETURN
+          END
+
+### 5. Common Operations {#common-operations .unnumbered}
+
+#### Example 3: Dot Product (Function) {#example-3-dot-product-function .unnumbered}
+
+    C     FUNCTION TO CALCULATE DOT PRODUCT
+          REAL FUNCTION DOT_PROD(A, B, N)
+          INTEGER N
+          REAL A(N), B(N)
+          INTEGER I
+          DOT_PROD = 0.0
+          DO 50 I = 1, N
+              DOT_PROD = DOT_PROD + A(I) * B(I)
+    50    CONTINUE
+          RETURN
+          END
+
+    C     MAIN PROGRAM
+          PROGRAM MAIN
+          PARAMETER (LEN = 3)
+          REAL V1(LEN), V2(LEN), DOT_PROD
+          DATA V1 /1.0, 2.0, 3.0/
+          DATA V2 /4.0, 5.0, 6.0/
+          WRITE(*,*) 'DOT PRODUCT:', DOT_PROD(V1, V2, LEN)
+          STOP
+          END
+
+### 6. Best Practices {#best-practices-14 .unnumbered}
+
+-   **Always Pass Array Size**:
+
+        SUBROUTINE PROCESS(ARR, N)
+        INTEGER N
+        REAL ARR(N)
+
+-   **Use PARAMETER Constants**:
+
+        PARAMETER (MAX_SIZE = 100)
+        REAL ARR(MAX_SIZE)
+
+-   **Avoid Side Effects in Functions**:
+
+        C GOOD: Pure function
+        REAL FUNCTION SUM(ARR, N)
+        C BAD: Function modifying input
+        REAL FUNCTION BAD(ARR, N)
+        ARR(1) = 0.0
+
+-   **Document Array Dimensions**:
+
+        C     INPUT: ARR(N) - 1D array of N elements
+        C     OUTPUT: Returns sum of elements
+
+### 7. Common Errors {#common-errors-1 .unnumbered}
+
+#### Mismatched Dimensions {#mismatched-dimensions .unnumbered}
+
+    C MAIN PROGRAM
+    REAL MAT(3,3)
+    C FUNCTION EXPECTS 1D ARRAY
+    CALL PRINT_ARRAY(MAT)  ! ERROR
+
+#### Incorrect Bounds {#incorrect-bounds .unnumbered}
+
+    DO 60 I = 1, N+1  ! N is array size
+        ARR(I) = 0.0  ! OUT OF BOUNDS
+    60 CONTINUE
+
+### 8. Advanced Example: Matrix Multiplication {#advanced-example-matrix-multiplication-1 .unnumbered}
+
+    C     SUBROUTINE FOR MATRIX MULTIPLICATION
+          SUBROUTINE MAT_MUL(A, B, C, N)
+          INTEGER N
+          REAL A(N,N), B(N,N), C(N,N)
+          INTEGER I, J, K
+          DO 70 I = 1, N
+              DO 80 J = 1, N
+                  C(I,J) = 0.0
+                  DO 90 K = 1, N
+                      C(I,J) = C(I,J) + A(I,K) * B(K,J)
+    90            CONTINUE
+    80        CONTINUE
+    70    CONTINUE
+          RETURN
+          END
+
+### 9. Handling Character Arrays {#handling-character-arrays .unnumbered}
+
+    C     SUBROUTINE TO REVERSE STRING
+          SUBROUTINE REVERSE_STR(STR, LEN)
+          INTEGER LEN
+          CHARACTER*(*) STR
+          CHARACTER TEMP
+          INTEGER I
+          DO 100 I = 1, LEN/2
+              TEMP = STR(I:I)
+              STR(I:I) = STR(LEN-I+1:LEN-I+1)
+              STR(LEN-I+1:LEN-I+1) = TEMP
+    100   CONTINUE
+          RETURN
+          END
+
+## Functions Calling Functions in Fortran 77
+
+### 1. Basic Function Composition {#basic-function-composition .unnumbered}
+
+Fortran 77 allows functions to call other functions, but with important
+constraints:
+
+-   Functions must be declared in the calling program unit
+
+-   No direct support for recursion (without compiler extensions)
+
+-   Functions can be nested up to compiler-dependent limits
+
+-   Proper type declarations are critical
+
+#### Example 1: Simple Function Composition {#example-1-simple-function-composition .unnumbered}
+
+    C     FUNCTION TO CALCULATE SQUARE
+          REAL FUNCTION SQUARE(X)
+          REAL X
+          SQUARE = X * X
+          RETURN
+          END
+
+    C     FUNCTION TO CALCULATE HYPOTENUSE
+          REAL FUNCTION HYPOT(A, B)
+          REAL A, B, SQUARE
+          HYPOT = SQRT(SQUARE(A) + SQUARE(B))
+          RETURN
+          END
+
+    C     MAIN PROGRAM
+          PROGRAM MAIN
+          REAL HYPOT
+          WRITE(*,*) 'HYPOTENUSE:', HYPOT(3.0, 4.0)
+          STOP
+          END
+
+**Explanation:** - `HYPOT` calls `SQUARE` twice - `SQRT` is an intrinsic
+function - All functions must be declared in calling scope
+
+### 2. Passing Functions as Arguments {#passing-functions-as-arguments .unnumbered}
+
+Fortran 77 supports function arguments using the `EXTERNAL` keyword:
+
+    C     FUNCTION INTEGRATOR
+          REAL FUNCTION INTEGRAL(FUNC, A, B, N)
+          EXTERNAL FUNC
+          REAL FUNC, A, B
+          INTEGER N
+          REAL DX, X, SUM
+          DX = (B - A)/N
+          SUM = 0.0
+          DO 10 I = 1, N
+              X = A + (I-0.5)*DX
+              SUM = SUM + FUNC(X)
+    10    CONTINUE
+          INTEGRAL = SUM * DX
+          RETURN
+          END
+
+    C     FUNCTION TO INTEGRATE
+          REAL FUNCTION POLY(X)
+          REAL X
+          POLY = X**3 + 2*X + 5
+          RETURN
+          END
+
+    C     MAIN PROGRAM
+          PROGRAM MAIN
+          EXTERNAL POLY
+          REAL INTEGRAL, RESULT
+          RESULT = INTEGRAL(POLY, 0.0, 2.0, 1000)
+          WRITE(*,*) 'INTEGRAL:', RESULT
+          STOP
+          END
+
+### 3. Recursion Limitations {#recursion-limitations .unnumbered}
+
+Standard Fortran 77 does not support recursion. Some compilers allow it
+with flags:
+
+    C     COMPILER-DEPENDENT RECURSION (GNU)
+          RECURSIVE INTEGER FUNCTION FACT(N) RESULT(RES)
+          INTEGER N
+          IF (N <= 1) THEN
+              RES = 1
+          ELSE
+              RES = N * FACT(N-1)
+          END IF
+          END
+
+    C     MAIN PROGRAM
+          PROGRAM MAIN
+          WRITE(*,*) '5! =', FACT(5)
+          STOP
+          END
+
+**Note:** Not standard Fortran 77! Requires compiler extensions.
+
+### 4. Function Libraries {#function-libraries-1 .unnumbered}
+
+Organize related functions in separate files:
+
+    C     MATH_FUNCS.F
+          REAL FUNCTION MEAN(ARR, N)
+          REAL ARR(N)
+          INTEGER N
+          MEAN = SUM(ARR) / N
+          END
+
+          REAL FUNCTION STDDEV(ARR, N)
+          REAL ARR(N), MEAN
+          STDDEV = SQRT(SUM((ARR - MEAN(ARR,N))**2)/(N-1))
+          END
+
+### 5. Common Patterns {#common-patterns .unnumbered}
+
+#### Wrapper Functions {#wrapper-functions .unnumbered}
+
+    C     WRAPPER FOR DIFFERENT PRECISION
+          DOUBLE PRECISION FUNCTION DEXP(X)
+          DOUBLE PRECISION X
+          DEXP = EXP(REAL(X))  ! Calls intrinsic EXP
+          RETURN
+          END
+
+#### Callback Systems {#callback-systems .unnumbered}
+
+    C     ROOT FINDING USING CALLBACK
+          REAL FUNCTION FIND_ROOT(FUNC, GUESS)
+          EXTERNAL FUNC
+          REAL FUNC, GUESS
+          REAL X, F_X, DX
+          X = GUESS
+          DX = 0.001
+          DO 20 I = 1, 1000
+              F_X = FUNC(X)
+              IF (ABS(F_X) < 1E-6) EXIT
+              X = X - F_X/((FUNC(X+DX)-F_X)/DX)
+    20    CONTINUE
+          FIND_ROOT = X
+          RETURN
+          END
+
+### 6. Best Practices {#best-practices-15 .unnumbered}
+
+-   Declare all functions with `EXTERNAL` when passing as arguments
+
+-   Use explicit interfaces for complex interactions
+
+-   Avoid deep nesting (max 2-3 levels)
+
+-   Document function dependencies
+
+-   Test compiler compatibility for advanced features
+
+### 7. Common Errors {#common-errors-2 .unnumbered}
+
+#### Missing EXTERNAL Declaration {#missing-external-declaration .unnumbered}
+
+    PROGRAM MAIN
+    REAL RESULT
+    RESULT = INTEGRAL(POLY, 0, 2, 100)  ! Undefined POLY
+    STOP
+    END
+
+#### Type Mismatch {#type-mismatch .unnumbered}
+
+    REAL FUNCTION F(X)
+    INTEGER X  ! Should be REAL
+    F = X**2
+    END
+
+### 8. Performance Considerations {#performance-considerations-2 .unnumbered}
+
+::: center
+  **Technique**       **Impact**
+  ------------------- -----------------------
+  Function inlining   Faster execution
+  Deep nesting        Increased stack usage
+  Function pointers   Slower dispatch
+  Recursion           Memory intensive
+:::
+
+### 9. Advanced Example: Function Factory {#advanced-example-function-factory .unnumbered}
+
+    C     CREATE POWER FUNCTIONS DYNAMICALLY
+          FUNCTION POWER_GEN(EXPONENT)
+          REAL POWER_GEN
+          REAL EXPONENT
+          EXTERNAL POWER_FUNC
+          POWER_GEN = POWER_FUNC
+          RETURN
+          END
+
+          REAL FUNCTION POWER_FUNC(X, EXPONENT)
+          REAL X, EXPONENT
+          POWER_FUNC = X ** EXPONENT
+          RETURN
+          END
+
+    C     MAIN PROGRAM (PSEUDO-CODE)
+          PROGRAM MAIN
+          EXTERNAL POWER_GEN
+          REAL SQUARE, CUBE
+          SQUARE = POWER_GEN(2.0)
+          CUBE = POWER_GEN(3.0)
+          WRITE(*,*) SQUARE(5.0), CUBE(5.0)
+          STOP
+          END
+
+**Note:** Requires advanced techniques beyond standard Fortran 77.
+
+### 10. Compiler Compatibility Table {#compiler-compatibility-table .unnumbered}
+
+::: center
+  **Feature**         **gfortran**   **Intel Fortran**
+  ------------------- -------------- -------------------
+  Recursion           -frecursive    /recursive
+  Function pointers   Supported      Supported
+  Nested functions    No             No
+:::
+
+## Function Examples in Fortran 77
+
+### 1. Basic Function with Return Value {#basic-function-with-return-value .unnumbered}
+
+    C     FUNCTION TO CALCULATE SQUARE
+          REAL FUNCTION SQUARE(X)
+          REAL X
+          SQUARE = X * X
+          RETURN
+          END
+
+    C     MAIN PROGRAM
+          PROGRAM MAIN
+          REAL SQUARE
+          WRITE(*,*) 'Square of 5.0:', SQUARE(5.0)
+          STOP
+          END
+
+**Explanation:** Simple function demonstrating return value and type
+declaration.
+
+### 2. Integer Function with Multiple Parameters {#integer-function-with-multiple-parameters .unnumbered}
+
+    C     CALCULATE AVERAGE OF TWO INTEGERS
+          INTEGER FUNCTION IAVG(A, B)
+          INTEGER A, B
+          IAVG = (A + B) / 2
+          RETURN
+          END
+
+          PROGRAM MAIN
+          INTEGER IAVG
+          WRITE(*,*) 'Average(7,9):', IAVG(7,9)
+          STOP
+          END
+
+### 3. Logical Function for Prime Check {#logical-function-for-prime-check .unnumbered}
+
+    C     CHECK PRIME NUMBER
+          LOGICAL FUNCTION ISPRIME(N)
+          INTEGER N, I
+          ISPRIME = .TRUE.
+          DO 10 I = 2, INT(SQRT(REAL(N)))
+              IF (MOD(N,I) .EQ. 0) THEN
+                  ISPRIME = .FALSE.
+                  RETURN
+              END IF
+    10    CONTINUE
+          RETURN
+          END
+
+          PROGRAM MAIN
+          LOGICAL ISPRIME
+          WRITE(*,*) '17 is prime:', ISPRIME(17)
+          STOP
+          END
+
+### 4. Character Function {#character-function .unnumbered}
+
+    C     RETURN GRADE LETTER
+          CHARACTER*1 FUNCTION GRADE(SCORE)
+          REAL SCORE
+          IF (SCORE .GE. 90.0) THEN
+              GRADE = 'A'
+          ELSE IF (SCORE .GE. 80.0) THEN
+              GRADE = 'B'
+          ELSE
+              GRADE = 'F'
+          END IF
+          RETURN
+          END
+
+          PROGRAM MAIN
+          CHARACTER*1 GRADE
+          WRITE(*,*) 'Grade(85): ', GRADE(85.0)
+          STOP
+          END
+
+### 5. Array Sum Function {#array-sum-function .unnumbered}
+
+    C     SUM ARRAY ELEMENTS
+          REAL FUNCTION ARRSUM(ARR, N)
+          INTEGER N
+          REAL ARR(N)
+          INTEGER I
+          ARRSUM = 0.0
+          DO 20 I = 1, N
+              ARRSUM = ARRSUM + ARR(I)
+    20    CONTINUE
+          RETURN
+          END
+
+          PROGRAM MAIN
+          REAL ARR(5), ARRSUM
+          DATA ARR /1.0,2.0,3.0,4.0,5.0/
+          WRITE(*,*) 'Array sum:', ARRSUM(ARR,5)
+          STOP
+          END
+
+### 6. Matrix Trace Function {#matrix-trace-function .unnumbered}
+
+    C     CALCULATE MATRIX TRACE
+          REAL FUNCTION TRACE(MAT, N)
+          INTEGER N
+          REAL MAT(N,N)
+          INTEGER I
+          TRACE = 0.0
+          DO 30 I = 1, N
+              TRACE = TRACE + MAT(I,I)
+    30    CONTINUE
+          RETURN
+          END
+
+          PROGRAM MAIN
+          REAL MAT(3,3), TRACE
+          DATA MAT /1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0/
+          WRITE(*,*) 'Trace:', TRACE(MAT,3)
+          STOP
+          END
+
+### 7. Function with Multiple Returns {#function-with-multiple-returns .unnumbered}
+
+    C     CALCULATE BOTH SUM AND DIFFERENCE
+          SUBROUTINE SUMDIFF(A, B, SUM, DIFF)
+          REAL A, B, SUM, DIFF
+          SUM = A + B
+          DIFF = A - B
+          RETURN
+          END
+
+          PROGRAM MAIN
+          REAL S, D
+          CALL SUMDIFF(8.0, 5.0, S, D)
+          WRITE(*,*) 'Sum:', S, 'Diff:', D
+          STOP
+          END
+
+### 8. Recursive Factorial (Compiler-dependent) {#recursive-factorial-compiler-dependent .unnumbered}
+
+    C     RECURSIVE FACTORIAL (NON-STANDARD)
+          INTEGER FUNCTION FACT(N)
+          INTEGER N
+          IF (N .LE. 1) THEN
+              FACT = 1
+          ELSE
+              FACT = N * FACT(N-1)
+          END IF
+          RETURN
+          END
+
+          PROGRAM MAIN
+          INTEGER FACT
+          WRITE(*,*) '5! =', FACT(5)
+          STOP
+          END
+
+**Note:** Requires compiler support for recursion.
+
+### 9. Function with Array Modification {#function-with-array-modification .unnumbered}
+
+    C     DOUBLE ARRAY ELEMENTS
+          SUBROUTINE DOUBLEARR(ARR, N)
+          INTEGER N, I
+          REAL ARR(N)
+          DO 40 I = 1, N
+              ARR(I) = ARR(I) * 2.0
+    40    CONTINUE
+          RETURN
+          END
+
+          PROGRAM MAIN
+          REAL NUM(3)
+          DATA NUM /1.0,2.0,3.0/
+          CALL DOUBLEARR(NUM,3)
+          WRITE(*,*) 'Doubled:', NUM
+          STOP
+          END
+
+### 10. Function as Argument {#function-as-argument .unnumbered}
+
+    C     NUMERICAL INTEGRATION
+          REAL FUNCTION INTEGRAL(FUNC, A, B, N)
+          EXTERNAL FUNC
+          REAL FUNC, A, B, DX, X, SUM
+          INTEGER N, I
+          DX = (B - A)/N
+          SUM = 0.0
+          DO 50 I = 1, N
+              X = A + (I-0.5)*DX
+              SUM = SUM + FUNC(X)
+    50    CONTINUE
+          INTEGRAL = SUM * DX
+          RETURN
+          END
+
+          REAL FUNCTION SQUARE(X)
+          REAL X
+          SQUARE = X**2
+          RETURN
+          END
+
+          PROGRAM MAIN
+          EXTERNAL SQUARE
+          REAL INTEGRAL
+          WRITE(*,*) 'Integral:', INTEGRAL(SQUARE,0.0,2.0,1000)
+          STOP
+          END
+
+### 11. Error Handling in Function {#error-handling-in-function .unnumbered}
+
+    C     SAFE DIVISION FUNCTION
+          REAL FUNCTION SAFEDIV(A, B, ERROR)
+          REAL A, B
+          LOGICAL ERROR
+          ERROR = .FALSE.
+          IF (B .EQ. 0.0) THEN
+              ERROR = .TRUE.
+              SAFEDIV = 0.0
+          ELSE
+              SAFEDIV = A / B
+          END IF
+          RETURN
+          END
+
+          PROGRAM MAIN
+          REAL SAFEDIV
+          LOGICAL ERR
+          WRITE(*,*) '10/0 =', SAFEDIV(10.0,0.0,ERR), 'Error:', ERR
+          STOP
+          END
+
+### 12. String Manipulation Function {#string-manipulation-function .unnumbered}
+
+    C     REVERSE STRING
+          SUBROUTINE REVSTR(STR, LEN)
+          INTEGER LEN, I
+          CHARACTER STR*(*), TEMP
+          DO 60 I = 1, LEN/2
+              TEMP = STR(I:I)
+              STR(I:I) = STR(LEN-I+1:LEN-I+1)
+              STR(LEN-I+1:LEN-I+1) = TEMP
+    60    CONTINUE
+          RETURN
+          END
+
+          PROGRAM MAIN
+          CHARACTER*10 S
+          S = 'HELLO'
+          CALL REVSTR(S,5)
+          WRITE(*,*) 'Reversed:', S
+          STOP
+          END
+
+### 13. Multi-dimensional Array Function {#multi-dimensional-array-function .unnumbered}
+
+    C     MATRIX MULTIPLICATION
+          SUBROUTINE MATMUL(A,B,C,N)
+          INTEGER N,I,J,K
+          REAL A(N,N), B(N,N), C(N,N)
+          DO 70 I=1,N
+          DO 70 J=1,N
+              C(I,J)=0.0
+              DO 70 K=1,N
+    70            C(I,J)=C(I,J)+A(I,K)*B(K,J)
+          RETURN
+          END
+
+          PROGRAM MAIN
+          REAL A(2,2),B(2,2),C(2,2)
+          DATA A/1.0,2.0,3.0,4.0/, B/5.0,6.0,7.0,8.0/
+          CALL MATMUL(A,B,C,2)
+          WRITE(*,*) 'Product:', C
+          STOP
+          END
+
+### 14. Function with Variable Arguments {#function-with-variable-arguments .unnumbered}
+
+    C     CALCULATE MEAN OF VARIABLE ARGUMENTS
+          REAL FUNCTION MEAN(N, ...)
+    C     WARNING: NOT STANDARD FORTRAN 77
+    C     (Requires compiler-specific implementation)
+          INTEGER N,I
+          REAL SUM,X
+          SUM = 0.0
+          DO 80 I = 1, N
+              X = VARARG(I)  ! Pseudo-code
+              SUM = SUM + X
+    80    CONTINUE
+          MEAN = SUM/N
+          RETURN
+          END
+
+**Note:** Demonstrates conceptual variable arguments.
+
+### 15. Function Returning Array {#function-returning-array .unnumbered}
+
+    C     RETURN ARRAY OF SQUARES
+          SUBROUTINE SQUARES(ARR, N)
+          INTEGER N, I
+          REAL ARR(N)
+          DO 90 I = 1, N
+              ARR(I) = REAL(I)**2
+    90    CONTINUE
+          RETURN
+          END
+
+          PROGRAM MAIN
+          REAL NUM(5)
+          CALL SQUARES(NUM,5)
+          WRITE(*,*) 'Squares:', NUM
+          STOP
+          END
+
+### 16. Type Conversion Function {#type-conversion-function .unnumbered}
+
+    C     FAHRENHEIT TO CELSIUS
+          REAL FUNCTION F2C(F)
+          REAL F
+          F2C = (F - 32.0) * 5.0/9.0
+          RETURN
+          END
+
+          PROGRAM MAIN
+          REAL F2C
+          WRITE(*,*) '32F =', F2C(32.0), 'C'
+          STOP
+          END
+
+### 17. Function with COMMON Block {#function-with-common-block .unnumbered}
+
+    C     GLOBAL CONSTANT USING COMMON
+          REAL FUNCTION CIRCUM(R)
+          REAL R, PI
+          COMMON /CONST/ PI
+          CIRCUM = 2.0 * PI * R
+          RETURN
+          END
+
+          PROGRAM MAIN
+          REAL CIRCUM, PI
+          COMMON /CONST/ PI
+          PI = 3.14159
+          WRITE(*,*) 'Circumference:', CIRCUM(1.0)
+          STOP
+          END
+
+### 18. Function with SAVE Attribute {#function-with-save-attribute .unnumbered}
+
+    C     COUNTER WITH PERSISTENT STATE
+          INTEGER FUNCTION COUNTER()
+          INTEGER COUNT
+          SAVE COUNT
+          DATA COUNT /0/
+          COUNT = COUNT + 1
+          COUNTER = COUNT
+          RETURN
+          END
+
+          PROGRAM MAIN
+          WRITE(*,*) 'Count:', COUNTER(), COUNTER(), COUNTER()
+          STOP
+          END
+
+### 19. Bitwise Operations Function {#bitwise-operations-function .unnumbered}
+
+    C     BITWISE AND FUNCTION
+          INTEGER FUNCTION BITAND(A, B)
+          INTEGER A, B
+          BITAND = AND(A, B)
+          RETURN
+          END
+
+          PROGRAM MAIN
+          INTEGER BITAND
+          WRITE(*,*) '5 & 3 =', BITAND(5,3)
+          STOP
+          END
+
+### 20. Complex Number Function {#complex-number-function .unnumbered}
+
+    C     COMPLEX NUMBER ADDITION
+          COMPLEX FUNCTION CADD(A, B)
+          COMPLEX A, B
+          CADD = A + B
+          RETURN
+          END
+
+          PROGRAM MAIN
+          COMPLEX C1, C2, C3, CADD
+          C1 = (1.0, 2.0)
+          C2 = (3.0, 4.0)
+          C3 = CADD(C1, C2)
+          WRITE(*,*) 'Sum:', C3
+          STOP
+          END
+
+## Exercises: Functions in Fortran 77
+
+### Basic Function Implementation
+
+1\. \*\*Area of Circle\*\*: Write a real function 'CIRCLE_AREA(R)' that
+calculates the area of a circle. Sample: Input=3.0 → Output≈28.2743
+
+2\. \*\*Factorial Function\*\*: Create an integer function 'FACT(N)' to
+compute factorial (iterative approach). Sample: Input=5 → Output=120
+
+3\. \*\*Even/Odd Check\*\*: Implement a logical function 'ISEVEN(NUM)'
+returning '.TRUE.' for even integers. Sample: Input=7 → Output=.FALSE.
+
+4\. \*\*Grade Converter\*\*: Write a character function 'GRADE(SCORE)'
+returning 'A'-'F' based on score (90-100: 'A', etc.).
+
+### Array & Matrix Functions {#array-matrix-functions .unnumbered}
+
+5\. \*\*Array Sum\*\*: Create a real function 'ARRAY_SUM(ARR, N)' to sum
+elements of a 1D array.
+
+6\. \*\*Matrix Trace\*\*: Implement a real function 'TRACE(MAT, N)' to
+calculate the trace of an N×N matrix.
+
+7\. \*\*Maximum Element\*\*: Write a function 'ARRAY_MAX(ARR, N)'
+returning the largest value in a 1D array.
+
+8\. \*\*Matrix Symmetry Check\*\*: Develop a logical function
+'IS_SYMMETRIC(MAT, N)' to check if a matrix is symmetric.
+
+### String & Character Functions {#string-character-functions .unnumbered}
+
+9\. \*\*String Reversal\*\*: Create a subroutine 'REVERSE_STR(STR, LEN)'
+to reverse a character string.
+
+10\. \*\*Vowel Counter\*\*: Implement an integer function
+'COUNT_VOWELS(STR)' returning the number of vowels (A/E/I/O/U).
+
+11\. \*\*Palindrome Check\*\*: Write a logical function
+'IS_PALINDROME(STR)' to check if a string reads the same backward.
+
+### Mathematical Functions {#mathematical-functions .unnumbered}
+
+12\. \*\*Prime Check\*\*: Develop a logical function 'IS_PRIME(N)' to
+test primality of an integer.
+
+13\. \*\*Temperature Conversion\*\*: Create a real function 'F2C(F)'
+converting Fahrenheit to Celsius.
+
+14\. \*\*Dot Product\*\*: Implement a real function 'DOT_PROD(VEC1,
+VEC2, N)' for two N-element vectors.
+
+15\. \*\*Standard Deviation\*\*: Write a function 'STD_DEV(ARR, N)' to
+calculate standard deviation of an array.
+
+### Advanced Function Concepts {#advanced-function-concepts .unnumbered}
+
+16\. \*\*Common Block Function\*\*: Create a function 'CIRCUMFERENCE(R)'
+using a COMMON block to store π (3.14159).
+
+17\. \*\*Persistent Counter\*\*: Implement an integer function
+'COUNTER()' with SAVE attribute to increment on each call.
+
+18\. \*\*Function Argument\*\*: Write an integration function
+'INTEGRATE(FUNC, A, B, N)' accepting another function as argument.
+
+19\. \*\*Bitwise Operations\*\*: Create integer functions for: a)
+'BITWISE_AND(A, B)' b) 'BITWISE_OR(A, B)'
+
+20\. \*\*Complex Numbers\*\*: Implement a complex function 'C_ADD(A, B)'
+to add two complex numbers.
+
+### Error Handling & Validation {#error-handling-validation .unnumbered}
+
+21\. \*\*Safe Division\*\*: Create a function 'SAFE_DIV(A, B, ERROR)'
+that sets ERROR flag for division by zero.
+
+22\. \*\*Input Validator\*\*: Write a logical function
+'VALID_INPUT(STR)' checking if a string contains only digits.
+
+### Challenge Problems {#challenge-problems .unnumbered}
+
+23\. \*\*Matrix Multiplier\*\*: Develop a subroutine 'MAT_MUL(A, B, C,
+N)' multiplying two N×N matrices.
+
+24\. \*\*Function Composition\*\*: Implement 'FOG(X) = F(G(X))' where
+F(X)=x² and G(X)=x+1 as separate functions.
+
+25\. \*\*Statistical Suite\*\*: Create a set of functions: - 'MEAN(ARR,
+N)' - 'MEDIAN(ARR, N)' - 'MODE(ARR, N)'
+
+## Exercise Answers: Functions in Fortran 77
+
+### 1. Area of Circle {#area-of-circle .unnumbered}
+
+    C     CALCULATE AREA OF CIRCLE
+          REAL FUNCTION CIRCLE_AREA(R)
+          REAL R, PI
+          PARAMETER (PI = 3.14159)
+          CIRCLE_AREA = PI * R**2
+          RETURN
+          END
+
+    C     MAIN PROGRAM
+          PROGRAM MAIN
+          REAL CIRCLE_AREA
+          WRITE(*,*) 'Area:', CIRCLE_AREA(3.0)
+          STOP
+          END
+
+**Explanation:** Uses π constant and square calculation. Returns real
+value.
+
+### 2. Factorial Function {#factorial-function .unnumbered}
+
+    C     ITERATIVE FACTORIAL
+          INTEGER FUNCTION FACT(N)
+          INTEGER N, I
+          FACT = 1
+          DO 10 I = 1, N
+              FACT = FACT * I
+    10    CONTINUE
+          RETURN
+          END
+
+          PROGRAM MAIN
+          INTEGER FACT
+          WRITE(*,*) '5! =', FACT(5)
+          STOP
+          END
+
+**Note:** Initializes result to 1 and multiplies sequentially.
+
+### 3. Even/Odd Check {#evenodd-check .unnumbered}
+
+    C     EVEN NUMBER CHECK
+          LOGICAL FUNCTION ISEVEN(NUM)
+          INTEGER NUM
+          ISEVEN = MOD(NUM, 2) .EQ. 0
+          RETURN
+          END
+
+          PROGRAM MAIN
+          LOGICAL ISEVEN
+          WRITE(*,*) '7 is even?', ISEVEN(7)
+          STOP
+          END
+
+**Logic:** Uses modulus operator for even check.
+
+### 4. Grade Converter {#grade-converter .unnumbered}
+
+    C     GRADE CONVERSION
+          CHARACTER*1 FUNCTION GRADE(SCORE)
+          REAL SCORE
+          IF (SCORE .GE. 90.0) THEN
+              GRADE = 'A'
+          ELSE IF (SCORE .GE. 80.0) THEN
+              GRADE = 'B'
+          ELSE IF (SCORE .GE. 70.0) THEN
+              GRADE = 'C'
+          ELSE
+              GRADE = 'F'
+          END IF
+          RETURN
+          END
+
+          PROGRAM MAIN
+          CHARACTER*1 GRADE
+          WRITE(*,*) 'Grade 85:', GRADE(85.0)
+          STOP
+          END
+
+### 5. Array Sum {#array-sum .unnumbered}
+
+    C     SUM ARRAY ELEMENTS
+          REAL FUNCTION ARRAY_SUM(ARR, N)
+          INTEGER N
+          REAL ARR(N)
+          INTEGER I
+          ARRAY_SUM = 0.0
+          DO 20 I = 1, N
+              ARRAY_SUM = ARRAY_SUM + ARR(I)
+    20    CONTINUE
+          RETURN
+          END
+
+          PROGRAM MAIN
+          REAL ARR(5), ARRAY_SUM
+          DATA ARR /1.0,2.0,3.0,4.0,5.0/
+          WRITE(*,*) 'Sum:', ARRAY_SUM(ARR,5)
+          STOP
+          END
+
+### 6. Matrix Trace {#matrix-trace .unnumbered}
+
+    C     MATRIX TRACE CALCULATION
+          REAL FUNCTION TRACE(MAT, N)
+          INTEGER N
+          REAL MAT(N,N)
+          INTEGER I
+          TRACE = 0.0
+          DO 30 I = 1, N
+              TRACE = TRACE + MAT(I,I)
+    30    CONTINUE
+          RETURN
+          END
+
+          PROGRAM MAIN
+          REAL MAT(3,3), TRACE
+          DATA MAT /1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0/
+          WRITE(*,*) 'Trace:', TRACE(MAT,3)
+          STOP
+          END
+
+### 7. Maximum Element {#maximum-element-1 .unnumbered}
+
+    C     FIND ARRAY MAXIMUM
+          REAL FUNCTION ARRAY_MAX(ARR, N)
+          INTEGER N
+          REAL ARR(N)
+          INTEGER I
+          ARRAY_MAX = ARR(1)
+          DO 40 I = 2, N
+              IF (ARR(I) .GT. ARRAY_MAX) THEN
+                  ARRAY_MAX = ARR(I)
+              END IF
+    40    CONTINUE
+          RETURN
+          END
+
+          PROGRAM MAIN
+          REAL ARR(5), ARRAY_MAX
+          DATA ARR /3.0,1.0,4.0,1.0,5.0/
+          WRITE(*,*) 'Max:', ARRAY_MAX(ARR,5)
+          STOP
+          END
+
+### 8. Matrix Symmetry Check {#matrix-symmetry-check .unnumbered}
+
+    C     CHECK MATRIX SYMMETRY
+          LOGICAL FUNCTION IS_SYMMETRIC(MAT, N)
+          INTEGER N
+          REAL MAT(N,N)
+          INTEGER I, J
+          IS_SYMMETRIC = .TRUE.
+          DO 50 I = 1, N
+              DO 60 J = I+1, N
+                  IF (MAT(I,J) .NE. MAT(J,I)) THEN
+                      IS_SYMMETRIC = .FALSE.
+                      RETURN
+                  END IF
+    60        CONTINUE
+    50    CONTINUE
+          RETURN
+          END
+
+### 9. String Reversal {#string-reversal .unnumbered}
+
+    C     REVERSE STRING
+          SUBROUTINE REVERSE_STR(STR, LEN)
+          INTEGER LEN, I
+          CHARACTER STR*(*), TEMP
+          DO 70 I = 1, LEN/2
+              TEMP = STR(I:I)
+              STR(I:I) = STR(LEN-I+1:LEN-I+1)
+              STR(LEN-I+1:LEN-I+1) = TEMP
+    70    CONTINUE
+          RETURN
+          END
+
+          PROGRAM MAIN
+          CHARACTER*5 S
+          S = 'HELLO'
+          CALL REVERSE_STR(S,5)
+          WRITE(*,*) 'Reversed:', S
+          STOP
+          END
+
+### 10. Vowel Counter {#vowel-counter .unnumbered}
+
+    C     COUNT VOWELS
+          INTEGER FUNCTION COUNT_VOWELS(STR)
+          CHARACTER*(*) STR
+          INTEGER I, LEN
+          COUNT_VOWELS = 0
+          LEN = LEN_TRIM(STR)
+          DO 80 I = 1, LEN
+              IF (INDEX('AEIOUaeiou', STR(I:I)) .GT. 0) THEN
+                  COUNT_VOWELS = COUNT_VOWELS + 1
+              END IF
+    80    CONTINUE
+          RETURN
+          END
+
+### 11. Palindrome Check {#palindrome-check .unnumbered}
+
+    C     PALINDROME CHECK
+          LOGICAL FUNCTION IS_PALINDROME(STR)
+          CHARACTER*(*) STR, REV_STR
+          INTEGER LEN
+          LEN = LEN_TRIM(STR)
+          REV_STR = STR
+          CALL REVERSE_STR(REV_STR, LEN)
+          IS_PALINDROME = STR(1:LEN) .EQ. REV_STR(1:LEN)
+          RETURN
+          END
+
+### 12. Prime Check {#prime-check .unnumbered}
+
+    C     PRIME CHECK
+          LOGICAL FUNCTION IS_PRIME(N)
+          INTEGER N, I
+          IF (N .LE. 1) THEN
+              IS_PRIME = .FALSE.
+              RETURN
+          END IF
+          DO 90 I = 2, SQRT(REAL(N))
+              IF (MOD(N,I) .EQ. 0) THEN
+                  IS_PRIME = .FALSE.
+                  RETURN
+              END IF
+    90    CONTINUE
+          IS_PRIME = .TRUE.
+          RETURN
+          END
+
+### 13. Temperature Conversion {#temperature-conversion .unnumbered}
+
+    C     FAHRENHEIT TO CELSIUS
+          REAL FUNCTION F2C(F)
+          REAL F
+          F2C = (F - 32.0) * 5.0/9.0
+          RETURN
+          END
+
+          PROGRAM MAIN
+          REAL F2C
+          WRITE(*,*) '212F =', F2C(212.0), 'C'
+          STOP
+          END
+
+### 14. Dot Product {#dot-product .unnumbered}
+
+    C     DOT PRODUCT
+          REAL FUNCTION DOT_PROD(VEC1, VEC2, N)
+          INTEGER N
+          REAL VEC1(N), VEC2(N)
+          INTEGER I
+          DOT_PROD = 0.0
+          DO 100 I = 1, N
+              DOT_PROD = DOT_PROD + VEC1(I)*VEC2(I)
+    100   CONTINUE
+          RETURN
+          END
+
+### 15. Standard Deviation {#standard-deviation .unnumbered}
+
+    C     STANDARD DEVIATION
+          REAL FUNCTION STD_DEV(ARR, N)
+          REAL ARR(N), MEAN
+          INTEGER N, I
+          MEAN = ARRAY_SUM(ARR,N)/REAL(N)
+          STD_DEV = 0.0
+          DO 110 I = 1, N
+              STD_DEV = STD_DEV + (ARR(I)-MEAN)**2
+    110   CONTINUE
+          STD_DEV = SQRT(STD_DEV/REAL(N))
+          RETURN
+          END
+
+### 16. Common Block Circumference {#common-block-circumference .unnumbered}
+
+    C     CIRCUMFERENCE WITH COMMON
+          REAL FUNCTION CIRCUM(R)
+          REAL R, PI
+          COMMON /CONST/ PI
+          CIRCUM = 2.0 * PI * R
+          RETURN
+          END
+
+          PROGRAM MAIN
+          REAL CIRCUM, PI
+          COMMON /CONST/ PI
+          PI = 3.14159
+          WRITE(*,*) 'Circumference:', CIRCUM(1.0)
+          STOP
+          END
+
+### 17. Persistent Counter {#persistent-counter .unnumbered}
+
+    C     PERSISTENT COUNTER
+          INTEGER FUNCTION COUNTER()
+          INTEGER COUNT
+          SAVE COUNT
+          DATA COUNT /0/
+          COUNT = COUNT + 1
+          COUNTER = COUNT
+          RETURN
+          END
+
+### 18. Function Argument Integration {#function-argument-integration .unnumbered}
+
+    C     NUMERICAL INTEGRATION
+          REAL FUNCTION INTEGRAL(FUNC, A, B, N)
+          EXTERNAL FUNC
+          REAL FUNC, A, B, DX, X, SUM
+          INTEGER N, I
+          DX = (B - A)/N
+          SUM = 0.0
+          DO 120 I = 1, N
+              X = A + (I-0.5)*DX
+              SUM = SUM + FUNC(X)
+    120   CONTINUE
+          INTEGRAL = SUM * DX
+          RETURN
+          END
+
+### 19. Bitwise Operations {#bitwise-operations .unnumbered}
+
+    C     BITWISE AND
+          INTEGER FUNCTION BITWISE_AND(A, B)
+          INTEGER A, B
+          BITWISE_AND = AND(A, B)
+          RETURN
+          END
+
+    C     BITWISE OR
+          INTEGER FUNCTION BITWISE_OR(A, B)
+          INTEGER A, B
+          BITWISE_OR = OR(A, B)
+          RETURN
+          END
+
+### 20. Complex Number Addition {#complex-number-addition .unnumbered}
+
+    C     COMPLEX ADDITION
+          COMPLEX FUNCTION C_ADD(A, B)
+          COMPLEX A, B
+          C_ADD = A + B
+          RETURN
+          END
+
+          PROGRAM MAIN
+          COMPLEX C1, C2, C_ADD
+          C1 = (1.0, 2.0)
+          C2 = (3.0, 4.0)
+          WRITE(*,*) 'Sum:', C_ADD(C1, C2)
+          STOP
+          END
+
+## Problem Solving Methodologies
+
+### Exercise 1: Area of Circle {#exercise-1-area-of-circle .unnumbered}
+
+#### Problem Analysis {#problem-analysis .unnumbered}
+
+Calculate the area of a circle using formula $A = \pi r^2$.
+
+#### Solution Approach {#solution-approach .unnumbered}
+
+1.  Create real function `CIRCLE_AREA` accepting radius
+
+2.  Declare constant $\pi$ using `PARAMETER`
+
+3.  Implement area formula
+
+4.  Return calculated value
+
+#### Key Concepts {#key-concepts .unnumbered}
+
+-   Function declaration with return type
+
+-   Constant parameters
+
+-   Arithmetic operations
+
+### Exercise 2: Factorial Function {#exercise-2-factorial-function .unnumbered}
+
+#### Problem Analysis {#problem-analysis-1 .unnumbered}
+
+Compute $n!$ iteratively.
+
+#### Solution Approach {#solution-approach-1 .unnumbered}
+
+1.  Initialize result to 1
+
+2.  Multiply sequentially from 1 to $n$
+
+3.  Return accumulated product
+
+#### Important Notes {#important-notes .unnumbered}
+
+-   Handles $n = 0$ correctly
+
+-   Uses integer type for exact results
+
+### Exercise 3: Even/Odd Check {#exercise-3-evenodd-check .unnumbered}
+
+#### Problem Analysis {#problem-analysis-2 .unnumbered}
+
+Determine if number is even using modulus operation.
+
+#### Solution Approach {#solution-approach-2 .unnumbered}
+
+1.  Use `MOD` function with divisor 2
+
+2.  Return `.TRUE.` if remainder is 0
+
+3.  Logical result directly from comparison
+
+#### Optimization {#optimization .unnumbered}
+
+-   Single-line implementation possible
+
+-   No explicit `IF` statement needed
+
+### Exercise 4: Grade Converter {#exercise-4-grade-converter .unnumbered}
+
+#### Problem Analysis {#problem-analysis-3 .unnumbered}
+
+Convert numerical score to letter grade.
+
+#### Solution Strategy {#solution-strategy .unnumbered}
+
+1.  Use cascading `IF-ELSE` structure
+
+2.  Compare score against thresholds
+
+3.  Return corresponding character
+
+#### Edge Cases {#edge-cases .unnumbered}
+
+-   Handles scores above 100 and below 0
+
+-   Returns 'F' as default case
+
+### Exercise 5: Array Sum {#exercise-5-array-sum .unnumbered}
+
+#### Implementation Logic {#implementation-logic .unnumbered}
+
+1.  Initialize sum to 0.0
+
+2.  Iterate through array elements
+
+3.  Accumulate total using loop
+
+#### Memory Considerations {#memory-considerations .unnumbered}
+
+-   Array passed by reference
+
+-   No size limit except memory constraints
+
+### Exercise 6: Matrix Trace {#exercise-6-matrix-trace .unnumbered}
+
+#### Algorithm Steps {#algorithm-steps .unnumbered}
+
+1.  Initialize sum to 0.0
+
+2.  Iterate diagonal elements $(i,i)$
+
+3.  Accumulate diagonal values
+
+#### Matrix Handling {#matrix-handling .unnumbered}
+
+-   Column-major order irrelevant for trace
+
+-   Works for any square matrix size
+
+### Exercise 7: Maximum Element {#exercise-7-maximum-element .unnumbered}
+
+#### Search Strategy {#search-strategy .unnumbered}
+
+1.  Assume first element is maximum
+
+2.  Compare with subsequent elements
+
+3.  Update maximum when larger value found
+
+#### Efficiency {#efficiency .unnumbered}
+
+-   Single pass $O(n)$ complexity
+
+-   Requires $n-1$ comparisons
+
+### Exercise 8: Matrix Symmetry {#exercise-8-matrix-symmetry .unnumbered}
+
+#### Verification Method {#verification-method .unnumbered}
+
+1.  Check $mat(i,j) = mat(j,i) \forall i,j$
+
+2.  Early exit on first mismatch
+
+3.  Upper triangular comparison
+
+#### Optimization {#optimization-1 .unnumbered}
+
+-   Avoids redundant comparisons
+
+-   Uses $j = i+1$ to reduce iterations
+
+### Exercise 9: String Reversal {#exercise-9-string-reversal .unnumbered}
+
+#### In-Place Algorithm {#in-place-algorithm .unnumbered}
+
+1.  Swap characters from ends to middle
+
+2.  Use temporary character storage
+
+3.  Handle even/odd length strings
+
+#### String Handling {#string-handling .unnumbered}
+
+-   Fortran substring notation
+
+-   Implicit length handling
+
+### Exercise 10: Vowel Counter {#exercise-10-vowel-counter .unnumbered}
+
+#### Detection Method {#detection-method .unnumbered}
+
+1.  Check each character against vowel set
+
+2.  Use `INDEX` function for membership test
+
+3.  Case-insensitive comparison
+
+#### Efficiency Note {#efficiency-note .unnumbered}
+
+-   Linear scan $O(n)$ complexity
+
+-   Alternative: Use logical OR of comparisons
+
+\[Continued in similar format for remaining exercises\...\]
+
+### Exercise 20: Complex Addition {#exercise-20-complex-addition .unnumbered}
+
+#### Complex Handling {#complex-handling .unnumbered}
+
+1.  Use Fortran complex data type
+
+2.  Leverage built-in complex arithmetic
+
+3.  Return complex result directly
+
+#### Type Safety {#type-safety .unnumbered}
+
+-   Implicit complex operations
+
+-   Real and imaginary parts handled automatically
+
+## General Problem Solving Patterns {#general-problem-solving-patterns .unnumbered}
+
+-   **Input Validation**: Check for valid ranges/values
+
+-   **Edge Cases**: Handle minimum/maximum values
+
+-   **Efficiency**: Optimize loop structures
+
+-   **Memory**: Consider array passing mechanisms
+
+-   **Modularity**: Decompose into sub-functions
+
+# Recursion in Fortran 77
+
+### Conceptual Overview {#conceptual-overview .unnumbered}
+
+Recursion is a programming technique where a function calls itself to
+solve smaller instances of the same problem. A recursive function
+typically consists of:
+
+-   **Base Case**: Termination condition preventing infinite loops
+
+-   **Recursive Case**: Function calls itself with modified parameters
+
+### Fortran 77 Implementation Challenges {#fortran-77-implementation-challenges .unnumbered}
+
+-   **No Official Support**: Original Fortran 77 standard prohibits
+    recursion
+
+-   **Compiler Extensions**: Some modern compilers (e.g., gfortran)
+    allow recursion with flags
+
+-   **Stack Limitations**: Deep recursion may cause stack overflows
+
+### Enabling Recursion in Modern Compilers {#enabling-recursion-in-modern-compilers .unnumbered}
+
+Example compilation flags:
+
+    gfortran -frecursive program.f  # GNU Fortran
+    ifort -recursive program.f      # Intel Fortran
+
+### Example 1: Factorial Calculation {#example-1-factorial-calculation .unnumbered}
+
+    C     RECURSIVE FACTORIAL FUNCTION
+          RECURSIVE INTEGER FUNCTION FACT(N) RESULT(RES)
+          INTEGER N
+          IF (N <= 0) THEN
+              RES = 1
+          ELSE
+              RES = N * FACT(N-1)
+          END IF
+          END
+
+    C     MAIN PROGRAM
+          PROGRAM MAIN
+          INTEGER FACT
+          WRITE(*,*) '5! =', FACT(5)
+          STOP
+          END
+
+**Components:**
+
+-   `RECURSIVE` keyword declares recursive capability
+
+-   `RESULT` clause specifies return variable
+
+-   Base case: $n \leq 0$ returns 1
+
+-   Recursive case: $n \times fact(n-1)$
+
+### Example 2: Fibonacci Sequence {#example-2-fibonacci-sequence .unnumbered}
+
+    C     RECURSIVE FIBONACCI
+          RECURSIVE INTEGER FUNCTION FIB(N) RESULT(RES)
+          INTEGER N
+          IF (N <= 0) THEN
+              RES = 0
+          ELSE IF (N == 1) THEN
+              RES = 1
+          ELSE
+              RES = FIB(N-1) + FIB(N-2)
+          END IF
+          END
+
+          PROGRAM MAIN
+          INTEGER FIB
+          WRITE(*,*) 'Fib(10) =', FIB(10)
+          STOP
+          END
+
+### Key Considerations {#key-considerations .unnumbered}
+
+::: center
+  **Aspect**    **Details**
+  ------------- -----------------------------------------
+  Stack Depth   Limited by compiler/memory settings
+  Performance   Generally slower than iteration
+  Memory Use    Grows linearly with recursion depth
+  Readability   Often clearer for mathematical problems
+:::
+
+### Appropriate Use Cases {#appropriate-use-cases .unnumbered}
+
+-   Mathematical series (factorial, Fibonacci)
+
+-   Tree traversals (in hierarchical data structures)
+
+-   Divide-and-conquer algorithms (QuickSort)
+
+-   Backtracking algorithms (permutations)
+
+### Performance Comparison: Recursive vs Iterative {#performance-comparison-recursive-vs-iterative .unnumbered}
+
+    C     ITERATIVE FACTORIAL
+          INTEGER FUNCTION ITER_FACT(N)
+          INTEGER N, I
+          ITER_FACT = 1
+          DO 10 I = 1, N
+              ITER_FACT = ITER_FACT * I
+    10    CONTINUE
+          END
+
+**Advantages of Iteration:**
+
+-   Fixed memory usage ($O(1)$)
+
+-   Faster execution (no function call overhead)
+
+-   No stack overflow risk
+
+### Recursion Best Practices {#recursion-best-practices .unnumbered}
+
+1.  Always define clear base cases
+
+2.  Limit recursion depth (\<1000 levels)
+
+3.  Prefer iteration for performance-critical code
+
+4.  Use compiler warnings (-Wall -Wextra)
+
+5.  Test across different compilers
+
+### Advanced Example: Binary Search {#advanced-example-binary-search .unnumbered}
+
+    C     RECURSIVE BINARY SEARCH
+          RECURSIVE INTEGER FUNCTION BSEARCH(ARR, L, R, X) RESULT(INDEX)
+          INTEGER ARR(*), L, R, X, MID
+          IF (R >= L) THEN
+              MID = L + (R - L)/2
+              IF (ARR(MID) == X) THEN
+                  INDEX = MID
+              ELSE IF (ARR(MID) > X) THEN
+                  INDEX = BSEARCH(ARR, L, MID-1, X)
+              ELSE
+                  INDEX = BSEARCH(ARR, MID+1, R, X)
+              END IF
+          ELSE
+              INDEX = -1
+          END IF
+          END
+
+          PROGRAM MAIN
+          INTEGER ARR(5), BSEARCH
+          DATA ARR /2,4,6,8,10/
+          WRITE(*,*) 'Found at:', BSEARCH(ARR,1,5,8)
+          STOP
+          END
+
+### Limitations and Risks {#limitations-and-risks .unnumbered}
+
+-   **Stack Overflow**: Deep recursion may crash program
+
+-   **Portability**: Non-standard across compilers
+
+-   **Debugging Difficulty**: Complex call stacks
+
+-   **Memory Efficiency**: Worse than iteration
+
+### Historical Context {#historical-context-2 .unnumbered}
+
+Original Fortran 77 restrictions stemmed from:
+
+-   Early computer memory limitations
+
+-   Static memory allocation requirements
+
+-   Focus on numerical/scientific computations
+
+### Modern Alternatives {#modern-alternatives .unnumbered}
+
+For projects requiring recursion:
+
+-   Use Fortran 90+ with standard recursion support
+
+-   Implement recursive algorithms iteratively
+
+-   Combine Fortran with recursive-friendly languages
+
+## Recursive Programming Examples in Fortran 77
+
+### 1. Factorial Calculation {#factorial-calculation .unnumbered}
+
+    RECURSIVE INTEGER FUNCTION FACT(n) RESULT(res)
+    INTEGER, INTENT(IN) :: n
+    IF (n <= 0) THEN
+        res = 1
+    ELSE
+        res = n * FACT(n-1)
+    END IF
+    END FUNCTION
+
+    ! Working Principle:
+    ! Base case: n ≤ 0 returns 1
+    ! Recursive case: n * fact(n-1)
+    ! Tree: Linear single recursion
+
+### 2. Fibonacci Sequence {#fibonacci-sequence .unnumbered}
+
+    RECURSIVE INTEGER FUNCTION FIB(n) RESULT(res)
+    INTEGER, INTENT(IN) :: n
+    IF (n <= 0) THEN
+        res = 0
+    ELSE IF (n == 1) THEN
+        res = 1
+    ELSE
+        res = FIB(n-1) + FIB(n-2)
+    END IF
+    END FUNCTION
+
+    ! Working Principle:
+    ! Binary recursion with two base cases
+    ! Exponential time complexity O(2^n)
+
+### 3. Greatest Common Divisor (GCD) {#greatest-common-divisor-gcd .unnumbered}
+
+    RECURSIVE INTEGER FUNCTION GCD(a,b) RESULT(res)
+    INTEGER, INTENT(IN) :: a, b
+    IF (b == 0) THEN
+        res = a
+    ELSE
+        res = GCD(b, MOD(a,b))
+    END IF
+    END FUNCTION
+
+    ! Working Principle:
+    ! Euclid's algorithm implementation
+    ! Recursively applies GCD(b, a mod b)
+
+### 4. Array Summation {#array-summation .unnumbered}
+
+    RECURSIVE REAL FUNCTION ARRAY_SUM(arr, n) RESULT(res)
+    REAL, INTENT(IN) :: arr(n)
+    INTEGER, INTENT(IN) :: n
+    IF (n == 0) THEN
+        res = 0.0
+    ELSE
+        res = arr(n) + ARRAY_SUM(arr, n-1)
+    END IF
+    END FUNCTION
+
+    ! Working Principle:
+    ! Accumulates sum from last element backward
+    ! Linear recursion O(n) complexity
+
+### 5. Binary Search {#binary-search .unnumbered}
+
+    RECURSIVE INTEGER FUNCTION BSEARCH(arr, l, r, x) RESULT(res)
+    INTEGER, INTENT(IN) :: arr(*), l, r, x
+    INTEGER :: mid
+    IF (r >= l) THEN
+        mid = l + (r - l)/2
+        IF (arr(mid) == x) THEN
+            res = mid
+        ELSE IF (arr(mid) > x) THEN
+            res = BSEARCH(arr, l, mid-1, x)
+        ELSE
+            res = BSEARCH(arr, mid+1, r, x)
+        END IF
+    ELSE
+        res = -1
+    END IF
+    END FUNCTION
+
+    ! Working Principle:
+    ! Divide-and-conquer approach
+    ! Log(n) recursive calls
+
+### 6. Tower of Hanoi {#tower-of-hanoi .unnumbered}
+
+    RECURSIVE SUBROUTINE HANOI(n, from, to, aux)
+    INTEGER, INTENT(IN) :: n
+    CHARACTER(*), INTENT(IN) :: from, to, aux
+    IF (n == 1) THEN
+        PRINT *, "Move disk 1 from ", from, " to ", to
+    ELSE
+        CALL HANOI(n-1, from, aux, to)
+        PRINT *, "Move disk ", n, " from ", from, " to ", to
+        CALL HANOI(n-1, aux, to, from)
+    END IF
+    END SUBROUTINE
+
+    ! Working Principle:
+    ! Moves n-1 disks to auxiliary tower
+    ! Moves nth disk to target
+    ! Recursively moves n-1 disks from auxiliary
+
+### 7. Palindrome Check {#palindrome-check-1 .unnumbered}
+
+    RECURSIVE LOGICAL FUNCTION IS_PAL(str, l, r) RESULT(res)
+    CHARACTER(*), INTENT(IN) :: str
+    INTEGER, INTENT(IN) :: l, r
+    IF (l >= r) THEN
+        res = .TRUE.
+    ELSE IF (str(l:l) /= str(r:r)) THEN
+        res = .FALSE.
+    ELSE
+        res = IS_PAL(str, l+1, r-1)
+    END IF
+    END FUNCTION
+
+    ! Working Principle:
+    ! Compares characters at both ends
+    ! Moves toward center recursively
+
+### 8. Power Calculation {#power-calculation .unnumbered}
+
+    RECURSIVE REAL FUNCTION POWER(x, n) RESULT(res)
+    REAL, INTENT(IN) :: x
+    INTEGER, INTENT(IN) :: n
+    IF (n == 0) THEN
+        res = 1.0
+    ELSE IF (n > 0) THEN
+        res = x * POWER(x, n-1)
+    ELSE
+        res = 1.0 / POWER(x, -n)
+    END IF
+    END FUNCTION
+
+    ! Working Principle:
+    ! Handles positive/negative exponents
+    ! Recursive multiplication/division
+
+### 9. Flood Fill Algorithm {#flood-fill-algorithm .unnumbered}
+
+    RECURSIVE SUBROUTINE FLOOD_FILL(grid, x, y, old, new)
+    INTEGER, INTENT(INOUT) :: grid(:,:)
+    INTEGER, INTENT(IN) :: x, y, old, new
+    IF (x < 1 .OR. x > SIZE(grid,1)) RETURN
+    IF (y < 1 .OR. y > SIZE(grid,2)) RETURN
+    IF (grid(x,y) /= old) RETURN
+
+    grid(x,y) = new
+    CALL FLOOD_FILL(grid, x+1, y, old, new)
+    CALL FLOOD_FILL(grid, x-1, y, old, new)
+    CALL FLOOD_FILL(grid, x, y+1, old, new)
+    CALL FLOOD_FILL(grid, x, y-1, old, new)
+    END SUBROUTINE
+
+    ! Working Principle:
+    ! 4-directional recursive filling
+    ! Base cases: Boundary checks and color match
+
+### 10. String Reversal {#string-reversal-1 .unnumbered}
+
+    RECURSIVE SUBROUTINE REVERSE_STR(str, l, r)
+    CHARACTER(*), INTENT(INOUT) :: str
+    INTEGER, INTENT(IN) :: l, r
+    CHARACTER :: temp
+    IF (l < r) THEN
+        temp = str(l:l)
+        str(l:l) = str(r:r)
+        str(r:r) = temp
+        CALL REVERSE_STR(str, l+1, r-1)
+    END IF
+    END SUBROUTINE
+
+    ! Working Principle:
+    ! Swaps characters at ends and moves inward
+    ! Terminates when pointers cross
+
+### 11. Linked List Traversal {#linked-list-traversal .unnumbered}
+
+    TYPE Node
+    INTEGER :: data
+    INTEGER :: next
+    END TYPE
+
+    RECURSIVE SUBROUTINE TRAVERSE(list, index)
+    TYPE(Node), INTENT(IN) :: list(:)
+    INTEGER, INTENT(IN) :: index
+    IF (index /= 0) THEN
+        PRINT *, list(index)%data
+        CALL TRAVERSE(list, list(index)%next)
+    END IF
+    END SUBROUTINE
+
+    ! Working Principle:
+    ! Recursive traversal using index pointers
+    ! Simulates pointer-based recursion
+
+### 12. Tree Inorder Traversal {#tree-inorder-traversal .unnumbered}
+
+    TYPE TreeNode
+    INTEGER :: data
+    INTEGER :: left
+    INTEGER :: right
+    END TYPE
+
+    RECURSIVE SUBROUTINE INORDER(tree, root)
+    TYPE(TreeNode), INTENT(IN) :: tree(:)
+    INTEGER, INTENT(IN) :: root
+    IF (root /= 0) THEN
+        CALL INORDER(tree, tree(root)%left)
+        PRINT *, tree(root)%data
+        CALL INORDER(tree, tree(root)%right)
+    END IF
+    END SUBROUTINE
+
+    ! Working Principle:
+    ! Visits left subtree → root → right subtree
+    ! Recursive depth-first traversal
+
+### 13. Permutations Generation {#permutations-generation .unnumbered}
+
+    RECURSIVE SUBROUTINE PERMUTE(arr, l, r)
+    INTEGER, INTENT(INOUT) :: arr(:)
+    INTEGER, INTENT(IN) :: l, r
+    INTEGER :: i, temp
+    IF (l == r) THEN
+        PRINT *, arr
+    ELSE
+        DO i = l, r
+            temp = arr(l)
+            arr(l) = arr(i)
+            arr(i) = temp
+            CALL PERMUTE(arr, l+1, r)
+            temp = arr(l)
+            arr(l) = arr(i)
+            arr(i) = temp
+        END DO
+    END IF
+    END SUBROUTINE
+
+    ! Working Principle:
+    ! Heap's algorithm implementation
+    ! Backtracking through recursive swaps
+
+### 14. Directory Traversal {#directory-traversal .unnumbered}
+
+    RECURSIVE SUBROUTINE LIST_DIR(path)
+    CHARACTER(*), INTENT(IN) :: path
+    CHARACTER(256) :: cmd, newpath
+    INTEGER :: status
+
+    CALL SYSTEM('ls '//TRIM(path)//' > dirlist.tmp')
+    OPEN(UNIT=10, FILE='dirlist.tmp', STATUS='OLD')
+    DO WHILE (.TRUE.)
+        READ(10,*,IOSTAT=status) cmd
+        IF (status /= 0) EXIT
+        IF (cmd(1:1) == 'D') THEN
+            newpath = TRIM(path)//'/'//cmd(3:)
+            CALL LIST_DIR(TRIM(newpath))
+        END IF
+    END DO
+    CLOSE(10, STATUS='DELETE')
+    END SUBROUTINE
+
+    ! Working Principle:
+    ! Recursive directory listing
+    ! Uses system calls for directory detection
+
+### 15. Maze Solver {#maze-solver .unnumbered}
+
+    RECURSIVE LOGICAL FUNCTION SOLVE_MAZE(maze, x, y) RESULT(res)
+    INTEGER, INTENT(INOUT) :: maze(:,:)
+    INTEGER, INTENT(IN) :: x, y
+
+    IF (x < 1 .OR. x > SIZE(maze,1)) THEN; res = .FALSE.; RETURN; END IF
+    IF (y < 1 .OR. y > SIZE(maze,2)) THEN; res = .FALSE.; RETURN; END IF
+
+    IF (maze(x,y) == 9) THEN; res = .TRUE.; RETURN; END IF
+    IF (maze(x,y) /= 0) THEN; res = .FALSE.; RETURN; END IF
+
+    maze(x,y) = 2  ! Mark path
+    res = SOLVE_MAZE(maze, x+1, y) .OR. SOLVE_MAZE(maze, x-1, y) &
+        .OR. SOLVE_MAZE(maze, x, y+1) .OR. SOLVE_MAZE(maze, x, y-1)
+    IF (.NOT. res) maze(x,y) = 3  ! Mark dead end
+    END FUNCTION
+
+    ! Working Principle:
+    ! 4-directional path finding with backtracking
+    ! Marks current path and dead ends
+
+### Important Notes {#important-notes-1 .unnumbered}
+
+-   All examples require compiler flags for recursion support
+
+-   Actual Fortran 77 implementations need WORKAROUNDS for:
+
+    -   Derived types (use arrays instead)
+
+    -   Dynamic memory (use fixed-size arrays)
+
+    -   System calls (implementation-dependent)
+
+-   Recursion depth limited by stack size
+
+-   Iterative implementations preferred for production code
+
+## Exercises: Recursion in Fortran 77
+
+### Basic Recursion Concepts {#basic-recursion-concepts .unnumbered}
+
+1\. \*\*Factorial Function\*\*: Implement a recursive function 'FACT(n)'
+to compute the factorial of a non-negative integer. Explain how the base
+case and recursive step work.
+
+2\. \*\*Fibonacci Sequence\*\*: Write a recursive function 'FIB(n)' to
+return the nth Fibonacci number. Discuss the inefficiency of this
+approach and suggest an optimization.
+
+3\. \*\*Array Sum\*\*: Create a recursive function 'ARRAY_SUM(arr, n)'
+to calculate the sum of elements in a 1D array. Specify the base case
+and recursion logic.
+
+4\. \*\*String Length\*\*: Design a recursive function 'STRLEN(str)' to
+compute the length of a character string without using Fortran's
+intrinsic 'LEN' function.
+
+### Algorithmic Problems {#algorithmic-problems .unnumbered}
+
+5\. \*\*Greatest Common Divisor (GCD)\*\*: Implement Euclid's algorithm
+recursively in a function 'GCD(a, b)'. Explain the mathematical basis
+for the recursive step.
+
+6\. \*\*Tower of Hanoi\*\*: Write a recursive subroutine 'HANOI(n,
+source, target, auxiliary)' to solve the Tower of Hanoi problem for $n$
+disks. List the sequence of moves for $n=3$.
+
+7\. \*\*Binary Search\*\*: Develop a recursive function 'BSEARCH(arr,
+low, high, key)' to perform binary search on a sorted array. State the
+time complexity.
+
+8\. \*\*Palindrome Check\*\*: Create a recursive logical function
+'IS_PAL(str, start, end)' to check if a substring is a palindrome.
+Handle empty strings and single characters.
+
+### Advanced Applications {#advanced-applications .unnumbered}
+
+9\. \*\*Flood Fill Algorithm\*\*: Design a recursive subroutine
+'FLOOD_FILL(grid, x, y, old, new)' to implement the flood fill operation
+on a 2D grid. Specify boundary conditions.
+
+10\. \*\*Recursion Limitations\*\*: Convert the recursive factorial
+function from Exercise 1 into an iterative version. Discuss why
+iteration might be preferred in Fortran 77.
+
+## Exercise Answers: Recursion in Fortran 77
+
+### 1. Factorial Function {#factorial-function-1 .unnumbered}
+
+    C     RECURSIVE FACTORIAL FUNCTION
+          RECURSIVE INTEGER FUNCTION FACT(N) RESULT(RES)
+          INTEGER, INTENT(IN) :: N
+          IF (N <= 0) THEN
+              RES = 1  ! BASE CASE
+          ELSE
+              RES = N * FACT(N - 1)  ! RECURSIVE CASE
+          END IF
+          END FUNCTION
+
+    C     MAIN PROGRAM
+          PROGRAM MAIN
+          INTEGER :: NUM = 5
+          WRITE(*,*) '5! = ', FACT(NUM)
+          STOP
+          END
+
+**Explanation:** - Base case: $n \leq 0$ returns 1 - Recursive step:
+$n \times fact(n-1)$ - Requires compiler flag: `-frecursive` in
+gfortran - Stack depth: $O(n)$
+
+### 2. Fibonacci Sequence {#fibonacci-sequence-1 .unnumbered}
+
+    C     RECURSIVE FIBONACCI
+          RECURSIVE INTEGER FUNCTION FIB(N) RESULT(RES)
+          INTEGER, INTENT(IN) :: N
+          IF (N <= 0) THEN
+              RES = 0
+          ELSE IF (N == 1) THEN
+              RES = 1
+          ELSE
+              RES = FIB(N-1) + FIB(N-2)
+          END IF
+          END FUNCTION
+
+    C     MAIN PROGRAM
+          PROGRAM MAIN
+          WRITE(*,*) 'FIB(6) = ', FIB(6)  ! OUTPUT: 8
+          STOP
+          END
+
+**Explanation:** - Two base cases ($n=0$, $n=1$) - Exponential time
+complexity $O(2^n)$ - Optimization: Use memoization or iteration
+
+### 3. Array Sum {#array-sum-1 .unnumbered}
+
+    C     RECURSIVE ARRAY SUM
+          RECURSIVE REAL FUNCTION ARRAY_SUM(ARR, N) RESULT(SUM)
+          REAL, INTENT(IN) :: ARR(N)
+          INTEGER, INTENT(IN) :: N
+          IF (N == 0) THEN
+              SUM = 0.0
+          ELSE
+              SUM = ARR(N) + ARRAY_SUM(ARR, N-1)
+          END IF
+          END FUNCTION
+
+    C     USAGE
+          PROGRAM MAIN
+          REAL :: A(5) = [1.0, 2.0, 3.0, 4.0, 5.0]
+          WRITE(*,*) 'SUM = ', ARRAY_SUM(A,5)  ! 15.0
+          STOP
+          END
+
+**Explanation:** - Base case: Empty array ($n=0$) returns 0 - Recursive:
+Last element + sum of first $n-1$ elements - Stack depth equals array
+size
+
+### 4. String Length {#string-length .unnumbered}
+
+    C     RECURSIVE STRING LENGTH
+          RECURSIVE INTEGER FUNCTION STRLEN(STR) RESULT(LEN)
+          CHARACTER(*), INTENT(IN) :: STR
+          IF (STR(1:1) == ' ') THEN
+              LEN = 0
+          ELSE
+              LEN = 1 + STRLEN(STR(2:))
+          END IF
+          END FUNCTION
+
+    C     MAIN PROGRAM
+          PROGRAM MAIN
+          WRITE(*,*) 'LENGTH = ', STRLEN('HELLO')  ! 5
+          STOP
+          END
+
+**Explanation:** - Base case: Empty character returns 0 - Recursive:
+Count first character + process substring - Handles strings up to 32,767
+characters (Fortran limit)
+
+### 5. Greatest Common Divisor (GCD) {#greatest-common-divisor-gcd-1 .unnumbered}
+
+    C     RECURSIVE GCD
+          RECURSIVE INTEGER FUNCTION GCD(A,B) RESULT(RES)
+          INTEGER, INTENT(IN) :: A, B
+          IF (B == 0) THEN
+              RES = A
+          ELSE
+              RES = GCD(B, MOD(A,B))
+          END IF
+          END FUNCTION
+
+    C     USAGE
+          PROGRAM MAIN
+          WRITE(*,*) 'GCD(48,18) = ', GCD(48,18)  ! 6
+          STOP
+          END
+
+**Explanation:** - Base case: $b = 0$ returns $a$ - Recursive:
+$gcd(b, a \mod b)$ - Implements Euclid's algorithm
+
+### 6. Tower of Hanoi {#tower-of-hanoi-1 .unnumbered}
+
+    C     RECURSIVE HANOI SOLUTION
+          RECURSIVE SUBROUTINE HANOI(N, FROM, TO, AUX)
+          INTEGER, INTENT(IN) :: N
+          CHARACTER(*), INTENT(IN) :: FROM, TO, AUX
+          IF (N == 1) THEN
+              WRITE(*,*) 'Move disk 1 from ', FROM, ' to ', TO
+          ELSE
+              CALL HANOI(N-1, FROM, AUX, TO)
+              WRITE(*,*) 'Move disk ', N, ' from ', FROM, ' to ', TO
+              CALL HANOI(N-1, AUX, TO, FROM)
+          END IF
+          END SUBROUTINE
+
+    C     MAIN PROGRAM
+          PROGRAM MAIN
+          CALL HANOI(3, 'A', 'C', 'B')
+          STOP
+          END
+
+**Output for n=3:** 1. Move disk 1 from A to C 2. Move disk 2 from A to
+B 3. Move disk 1 from C to B 4. Move disk 3 from A to C 5. Move disk 1
+from B to A 6. Move disk 2 from B to C 7. Move disk 1 from A to C
+
+### 7. Binary Search {#binary-search-1 .unnumbered}
+
+    C     RECURSIVE BINARY SEARCH
+          RECURSIVE INTEGER FUNCTION BSEARCH(ARR, L, R, X) RESULT(INDEX)
+          INTEGER, INTENT(IN) :: ARR(*), L, R, X
+          INTEGER :: MID
+          IF (R >= L) THEN
+              MID = L + (R - L)/2
+              IF (ARR(MID) == X) THEN
+                  INDEX = MID
+              ELSE IF (ARR(MID) > X) THEN
+                  INDEX = BSEARCH(ARR, L, MID-1, X)
+              ELSE
+                  INDEX = BSEARCH(ARR, MID+1, R, X)
+              END IF
+          ELSE
+              INDEX = -1
+          END IF
+          END FUNCTION
+
+**Explanation:** - Time complexity: $O(\log n)$ - Space complexity:
+$O(\log n)$ (recursive stack) - Precondition: Array must be sorted
+
+### 8. Palindrome Check {#palindrome-check-2 .unnumbered}
+
+    C     RECURSIVE PALINDROME CHECK
+          RECURSIVE LOGICAL FUNCTION IS_PAL(STR, L, R) RESULT(RES)
+          CHARACTER(*), INTENT(IN) :: STR
+          INTEGER, INTENT(IN) :: L, R
+          IF (L >= R) THEN
+              RES = .TRUE.
+          ELSE IF (STR(L:L) /= STR(R:R)) THEN
+              RES = .FALSE.
+          ELSE
+              RES = IS_PAL(STR, L+1, R-1)
+          END IF
+          END FUNCTION
+
+    C     USAGE
+          PROGRAM MAIN
+          CHARACTER(5) :: S = 'LEVEL'
+          WRITE(*,*) IS_PAL(S, 1, LEN_TRIM(S))  ! .TRUE.
+          STOP
+          END
+
+**Explanation:** - Base case: $l \geq r$ (empty or single-character
+string) - Recursive: Compare ends and check inner substring
+
+### 9. Flood Fill Algorithm {#flood-fill-algorithm-1 .unnumbered}
+
+    C     RECURSIVE FLOOD FILL
+          RECURSIVE SUBROUTINE FLOOD_FILL(GRID, X, Y, OLD, NEW)
+          INTEGER, INTENT(INOUT) :: GRID(:,:)
+          INTEGER, INTENT(IN) :: X, Y, OLD, NEW
+          IF (X < 1 .OR. X > SIZE(GRID,1)) RETURN
+          IF (Y < 1 .OR. Y > SIZE(GRID,2)) RETURN
+          IF (GRID(X,Y) /= OLD) RETURN
+
+          GRID(X,Y) = NEW
+          CALL FLOOD_FILL(GRID, X+1, Y, OLD, NEW)
+          CALL FLOOD_FILL(GRID, X-1, Y, OLD, NEW)
+          CALL FLOOD_FILL(GRID, X, Y+1, OLD, NEW)
+          CALL FLOOD_FILL(GRID, X, Y-1, OLD, NEW)
+          END SUBROUTINE
+
+**Explanation:** - Base cases: Out-of-bounds or different color -
+4-directional recursion - Marks visited cells to prevent infinite loops
+
+### 10. Iterative Factorial {#iterative-factorial .unnumbered}
+
+    C     ITERATIVE FACTORIAL
+          INTEGER FUNCTION ITER_FACT(N)
+          INTEGER, INTENT(IN) :: N
+          INTEGER :: I
+          ITER_FACT = 1
+          DO 10 I = 1, N
+              ITER_FACT = ITER_FACT * I
+    10    CONTINUE
+          END FUNCTION
+
+**Comparison:** - No stack overflow risk - Constant $O(1)$ space vs
+recursive $O(n)$ - Faster execution (no function call overhead)
