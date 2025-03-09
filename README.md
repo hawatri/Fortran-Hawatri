@@ -3494,3 +3494,623 @@ compile time.
     600   CONTINUE
           STOP
           END
+
+## Array and Matrix Declaration & Access in Fortran 77
+
+### 1. Fundamental Array Types {#fundamental-array-types .unnumbered}
+
+Fortran 77 supports several array declaration styles, each with specific
+use cases:
+
+#### Explicit-Shape Arrays {#explicit-shape-arrays .unnumbered}
+
+-   **Purpose**: Fixed-size arrays with compile-time dimensions
+
+-   **Syntax**:
+
+        DATA_TYPE NAME(LOWER:UPPER, ...)
+
+-   **Key Features**: - Dimensions specified with explicit bounds - Most
+    common array type - Memory allocated at program start
+
+```{=html}
+<!-- -->
+```
+    C 1D: 5 elements (indices 1-5)
+    INTEGER SCORES(5)       
+
+    C 2D: 3x4 matrix (rows 1-3, cols 1-4)
+    REAL TEMPERATURES(3,4)  
+
+    C Custom bounds: indices 0-10 (11 elements)
+    CHARACTER*20 NAMES(0:10)
+
+#### Adjustable Arrays {#adjustable-arrays .unnumbered}
+
+-   **Purpose**: Pass array sections to subprograms
+
+-   **Syntax**:
+
+        DATA_TYPE NAME(*)
+
+-   **Key Features**: - Used in subprogram parameter lists - Size
+    determined by calling program - Requires explicit interface in some
+    cases
+
+```{=html}
+<!-- -->
+```
+    SUBROUTINE PROCESS(VECTOR, N)
+    INTEGER N, VECTOR(N)  ! Adjustable size
+    ...
+    END
+
+#### Assumed-Size Arrays {#assumed-size-arrays .unnumbered}
+
+-   **Purpose**: Handle arrays of unknown size
+
+-   **Syntax**:
+
+        DATA_TYPE NAME(*)
+
+-   **Key Features**: - Last dimension can be asterisk - Limited to
+    subprogram parameters - Avoid for complex operations
+
+```{=html}
+<!-- -->
+```
+    SUBROUTINE PRINT_ARRAY(ARR, SIZE)
+    REAL ARR(*)  ! Assumed-size array
+    ...
+    END
+
+### 2. Matrix Declaration Techniques {#matrix-declaration-techniques .unnumbered}
+
+#### Row vs Column Major Order {#row-vs-column-major-order .unnumbered}
+
+Fortran uses **column-major** storage:
+
+-   Elements stored column-wise in memory
+
+-   Critical for performance optimization
+
+-   Affects loop nesting order
+
+```{=html}
+<!-- -->
+```
+    REAL MATRIX(3,3)  ! Stored as:
+    ! (1,1), (2,1), (3,1), (1,2), (2,2), ...
+
+#### Multi-Dimensional Arrays {#multi-dimensional-arrays-1 .unnumbered}
+
+-   Created by specifying multiple dimensions
+
+-   Maximum 7 dimensions (per standard)
+
+-   Higher dimensions less common
+
+```{=html}
+<!-- -->
+```
+    C 3D: 2x3x4 array
+    INTEGER CUBE(2,3,4)
+
+    C 4D: Time-varying 3D data
+    REAL SPACETIME(10,10,10,100)
+
+### 3. Array Access Methods {#array-access-methods .unnumbered}
+
+#### Element Access {#element-access .unnumbered}
+
+-   Use `( )` with comma-separated indices
+
+-   Indices must be within declared bounds
+
+-   No automatic bounds checking
+
+```{=html}
+<!-- -->
+```
+    REAL GRID(5,5)
+    GRID(2,3) = 4.5  ! Single element
+
+#### Section Access (Subarrays) {#section-access-subarrays .unnumbered}
+
+-   Access contiguous array portions
+
+-   Limited to *start:end:step* syntax
+
+-   Fortran 77 requires explicit loops
+
+```{=html}
+<!-- -->
+```
+    INTEGER ARR(10), SUB(5)
+    DO 10 I = 1,5
+        SUB(I) = ARR(I+2)  ! Elements 3-7
+    10 CONTINUE
+
+### 4. Special Array Cases {#special-array-cases .unnumbered}
+
+#### Zero-Based Arrays {#zero-based-arrays .unnumbered}
+
+-   Not required to start at 1
+
+-   Useful for mathematical indices
+
+```{=html}
+<!-- -->
+```
+    REAL WAVE(-100:100)  ! 201 elements
+    WAVE(-100) = 0.0     ! First element
+
+#### Character Arrays {#character-arrays .unnumbered}
+
+-   Arrays of fixed-length strings
+
+-   Different from character arrays in C
+
+```{=html}
+<!-- -->
+```
+    CHARACTER*15 NAMES(50)  ! 50 names, 15 chars each
+    NAMES(1)(1:5) = 'John '  ! Access substring
+
+### 5. Array Usage in Subprograms {#array-usage-in-subprograms .unnumbered}
+
+#### Passing Full Arrays {#passing-full-arrays .unnumbered}
+
+-   Pass array name without indices
+
+-   Actual and dummy arrays must match rank
+
+```{=html}
+<!-- -->
+```
+    CALL PRINT_MATRIX(MATRIX)  ! Main program
+
+    SUBROUTINE PRINT_MATRIX(ARR)
+    REAL ARR(3,3)  ! Must match dimensions
+    ...
+    END
+
+#### Common Pitfalls {#common-pitfalls-3 .unnumbered}
+
+-   **Dimension Mismatch**:
+
+        REAL A(5)
+        CALL SUB(A(2))  ! Passing single element
+
+-   **Assumed-Size Limitations**:
+
+        SUBROUTINE BAD(ARR)
+        REAL ARR(*)  
+        PRINT *, SIZE(ARR)  ! Undefined!
+        END
+
+### 6. Best Practices {#best-practices-10 .unnumbered}
+
+-   **Use PARAMETER Constants**:
+
+        INTEGER, PARAMETER :: N = 100
+        REAL DATA(N,N)
+
+-   **Initialize Explicitly**:
+
+        REAL VECTOR(5)
+        DATA VECTOR /5*0.0/  ! Initialize to zero
+
+-   **Column-Major Optimization**:
+
+        DO 20 J = 1, COLS    ! Outer loop columns
+            DO 30 I = 1, ROWS
+                MATRIX(I,J) = ...
+        30  CONTINUE
+        20 CONTINUE
+
+### 7. Comprehensive Example {#comprehensive-example .unnumbered}
+
+    C MATRIX-VECTOR MULTIPLICATION
+          PROGRAM MATVEC
+          REAL MAT(3,3), VEC(3), RESULT(3)
+          INTEGER I,J
+          
+    C Initialize matrix (column-wise)
+          DATA MAT /1.0, 4.0, 7.0,   ! First column
+         *          2.0, 5.0, 8.0,   ! Second column
+         *          3.0, 6.0, 9.0/    ! Third column
+         
+    C Initialize vector
+          DATA VEC /1.0, 2.0, 3.0/
+
+    C Perform multiplication
+          DO 40 I = 1, 3
+              RESULT(I) = 0.0
+              DO 50 J = 1, 3
+                  RESULT(I) = RESULT(I) + MAT(I,J)*VEC(J)
+    50        CONTINUE
+    40    CONTINUE
+
+          WRITE(*,*) 'Result:', RESULT
+          STOP
+          END
+
+**Key Observations**: 1. Matrix initialized column-wise via DATA 2.
+Nested loops follow column-major order 3. Explicit element-by-element
+calculation 4. RESULT array stores final values
+
+## Exercises: Loops in Fortran 77
+
+### Basic Loop Structures {#basic-loop-structures .unnumbered}
+
+1\. \*\*Simple DO Loop\*\*: Write a program to print numbers from 1 to a
+user-input integer $N$ using a DO loop. \*Input\*: 5 \| \*Output\*: 1 2
+3 4 5
+
+2\. \*\*Step Value Practice\*\*: Modify the above program to print even
+numbers between 2 and $N$ using a step value of 2. \*Input\*: 10 \|
+\*Output\*: 2 4 6 8 10
+
+3\. \*\*Summation Loop\*\*: Calculate the sum of the first $N$ natural
+numbers using a DO loop. \*Input\*: 5 \| \*Output\*: 15
+
+4\. \*\*Factorial Calculator\*\*: Compute $N!$ (factorial) using a DO
+loop. Handle $N = 0$ as a special case. \*Input\*: 4 \| \*Output\*: 24
+
+### Conditional Loops & Control Flow {#conditional-loops-control-flow .unnumbered}
+
+5\. \*\*Input Validation\*\*: Use a DO-WHILE loop to repeatedly ask for
+a positive integer until valid input is received.
+
+6\. \*\*Early Exit\*\*: Read numbers until a negative value is entered.
+Print the sum of positive numbers using a loop with a conditional 'GOTO'
+exit. \*Input\*: 3 5 -1 \| \*Output\*: 8
+
+7\. \*\*Prime Checker\*\*: Check if a number is prime using a loop.
+Terminate early if a divisor is found. \*Input\*: 7 \| \*Output\*:
+\"Prime\"
+
+8\. \*\*Password Attempts\*\*: Implement 3 login attempts using a loop.
+Exit early if the correct password is entered.
+
+### Nested Loops {#nested-loops .unnumbered}
+
+9\. \*\*Multiplication Table\*\*: Print a $N \times N$ multiplication
+table using nested loops. \*Input\*: 3 \| \*Output\*: 1 2 3 2 4 6 3 6 9
+
+10\. \*\*Pattern Printing\*\*: Use nested loops to print:
+
+    *
+    **
+    ***
+
+11\. \*\*Matrix Initialization\*\*: Initialize a $3 \times 3$ matrix
+with values $A(i,j) = i + j$ using nested loops.
+
+### Array Operations with Loops {#array-operations-with-loops .unnumbered}
+
+12\. \*\*Array Sum & Average\*\*: Read 5 numbers into an array. Compute
+their sum and average using a loop.
+
+13\. \*\*Maximum Element\*\*: Find the largest value in a 1D array of 10
+elements using a loop.
+
+14\. \*\*Array Reversal\*\*: Reverse the elements of a 1D array using
+loops. \*Input\*: \[1, 2, 3\] \| \*Output\*: \[3, 2, 1\]
+
+15\. \*\*Matrix Transpose\*\*: Transpose a $3 \times 3$ matrix using
+nested loops. \*Input\*: 1 2 3 4 5 6 7 8 9 \*Output\*: 1 4 7 2 5 8 3 6 9
+
+### Challenge Problem {#challenge-problem .unnumbered}
+
+\*\*Bubble Sort\*\*: Sort a 1D array of 10 integers in ascending order
+using nested loops.
+
+## Exercise Answers: Loops in Fortran 77
+
+### 1. Simple DO Loop {#simple-do-loop .unnumbered}
+
+    C     PRINTS NUMBERS 1 TO N
+          PROGRAM COUNT
+          INTEGER N, I
+          WRITE(*,*) 'ENTER N:'
+          READ(*,*) N
+          DO 10 I = 1, N
+              WRITE(*,*) I
+    10    CONTINUE
+          STOP
+          END
+
+**Explanation:** - Loop variable `I` runs from 1 to user-input `N` -
+`CONTINUE` at label 10 marks loop end - Implicit increment of 1 per
+iteration
+
+### 2. Even Numbers with Step Value {#even-numbers-with-step-value .unnumbered}
+
+    C     PRINTS EVEN NUMBERS UPTO N
+          PROGRAM EVENS
+          INTEGER N, I
+          WRITE(*,*) 'ENTER N:'
+          READ(*,*) N
+          DO 20 I = 2, N, 2
+              WRITE(*,*) I
+    20    CONTINUE
+          STOP
+          END
+
+**Key Features:** - Step value 2 creates even sequence - Handles any
+even/odd `N` correctly - Loop bounds inclusive
+
+### 3. Sum of First N Natural Numbers {#sum-of-first-n-natural-numbers .unnumbered}
+
+    C     CALCULATES SUM(1-N)
+          PROGRAM SUMN
+          INTEGER N, I, TOTAL
+          TOTAL = 0
+          WRITE(*,*) 'ENTER N:'
+          READ(*,*) N
+          DO 30 I = 1, N
+              TOTAL = TOTAL + I
+    30    CONTINUE
+          WRITE(*,*) 'SUM:', TOTAL
+          STOP
+          END
+
+**Logic:** - Initializes `TOTAL` to 0 - Accumulates sum in loop - Works
+for N ≥ 0
+
+### 4. Factorial Calculator {#factorial-calculator .unnumbered}
+
+    C     COMPUTES N!
+          PROGRAM FACT
+          INTEGER N, I, RESULT
+          RESULT = 1
+          WRITE(*,*) 'ENTER N:'
+          READ(*,*) N
+          IF (N .EQ. 0) GOTO 40
+          DO 50 I = 1, N
+              RESULT = RESULT * I
+    50    CONTINUE
+    40    WRITE(*,*) N, '! =', RESULT
+          STOP
+          END
+
+**Special Case:** - Handles 0! = 1 via `GOTO` - Loop multiplies
+sequentially - Result initialized to 1
+
+### 5. Input Validation {#input-validation-2 .unnumbered}
+
+    C     ENSURES POSITIVE INPUT
+          PROGRAM VALID
+          INTEGER NUM
+    60    WRITE(*,*) 'ENTER POSITIVE NUMBER:'
+          READ(*,*) NUM
+          IF (NUM .LE. 0) GOTO 60
+          WRITE(*,*) 'VALID INPUT:', NUM
+          STOP
+          END
+
+**Features:** - Infinite loop until valid input - `GOTO` creates
+repetition - Strict positive check
+
+### 6. Early Exit Summation {#early-exit-summation .unnumbered}
+
+    C     SUMS POSITIVE NUMBERS
+          PROGRAM SUM_POS
+          INTEGER NUM, TOTAL
+          TOTAL = 0
+    70    WRITE(*,*) 'ENTER NUMBER:'
+          READ(*,*) NUM
+          IF (NUM .LT. 0) GOTO 80
+          TOTAL = TOTAL + NUM
+          GOTO 70
+    80    WRITE(*,*) 'TOTAL:', TOTAL
+          STOP
+          END
+
+**Control Flow:** - Loop exits on negative input - Accumulates in
+`TOTAL` - `GOTO` creates loop structure
+
+### 7. Prime Number Check {#prime-number-check .unnumbered}
+
+    C     CHECKS PRIME STATUS
+          PROGRAM PRIME
+          INTEGER N, I
+          LOGICAL ISPRIME
+          ISPRIME = .TRUE.
+          WRITE(*,*) 'ENTER NUMBER:'
+          READ(*,*) N
+          DO 90 I = 2, INT(SQRT(REAL(N)))
+              IF (MOD(N, I) .EQ. 0) THEN
+                  ISPRIME = .FALSE.
+                  GOTO 100
+              END IF
+    90    CONTINUE
+    100   IF (ISPRIME) THEN
+              WRITE(*,*) 'PRIME'
+          ELSE
+              WRITE(*,*) 'NOT PRIME'
+          END IF
+          STOP
+          END
+
+**Optimization:** - Loops up to √n - Early exit using `GOTO` - Handles 1
+and 2 correctly
+
+### 8. Password Attempt System {#password-attempt-system .unnumbered}
+
+    C     PASSWORD CHECKER
+          PROGRAM PASS
+          INTEGER TRIES, PASS, INPUT
+          TRIES = 3
+          PASS = 1234
+    110   WRITE(*,*) 'ATTEMPTS LEFT:', TRIES
+          WRITE(*,*) 'ENTER PASSWORD:'
+          READ(*,*) INPUT
+          IF (INPUT .EQ. PASS) THEN
+              WRITE(*,*) 'ACCESS GRANTED'
+              STOP
+          ELSE
+              TRIES = TRIES - 1
+              IF (TRIES .GT. 0) GOTO 110
+          END IF
+          WRITE(*,*) 'ACCOUNT LOCKED'
+          STOP
+          END
+
+**Security:** - 3 attempt counter - Decrements on wrong attempts -
+Immediate exit on correct password
+
+### 9. Multiplication Table {#multiplication-table .unnumbered}
+
+    C     N x N MULTIPLICATION TABLE
+          PROGRAM MUL_TABLE
+          INTEGER N, I, J
+          WRITE(*,*) 'ENTER N:'
+          READ(*,*) N
+          DO 120 I = 1, N
+              DO 130 J = 1, N
+                  WRITE(*,'(I4)') I*J
+    130       CONTINUE
+              WRITE(*,*) ' '  ! NEWLINE
+    120   CONTINUE
+          STOP
+          END
+
+**Formatting:** - Nested loops for rows/columns - Formatted output for
+alignment - Newline after each row
+
+### 10. Star Pattern {#star-pattern .unnumbered}
+
+    C     PRINTS TRIANGLE PATTERN
+          PROGRAM STAR
+          INTEGER I, J
+          DO 140 I = 1, 3
+              DO 150 J = 1, I
+                  WRITE(*,*) '*'
+    150       CONTINUE
+              WRITE(*,*) ' '  ! NEWLINE
+    140   CONTINUE
+          STOP
+          END
+
+**Pattern Logic:** - Outer loop controls rows - Inner loop prints stars
+per row - Newline after each row
+
+### 11. Matrix Initialization {#matrix-initialization .unnumbered}
+
+    C     INITIALIZES 3x3 MATRIX
+          PROGRAM MAT_INIT
+          INTEGER MAT(3,3), I, J
+          DO 160 I = 1, 3
+              DO 170 J = 1, 3
+                  MAT(I,J) = I + J
+    170       CONTINUE
+    160   CONTINUE
+          STOP
+          END
+
+**Structure:** - Nested loops for rows/columns - Formula: `I + J` - 3x3
+matrix dimensions
+
+### 12. Array Sum & Average {#array-sum-average .unnumbered}
+
+    C     ARRAY OPERATIONS
+          PROGRAM ARR_OPS
+          REAL ARR(5), SUM, AVG
+          INTEGER I
+          WRITE(*,*) 'ENTER 5 NUMBERS:'
+          READ(*,*) (ARR(I), I=1,5)
+          SUM = 0.0
+          DO 180 I = 1, 5
+              SUM = SUM + ARR(I)
+    180   CONTINUE
+          AVG = SUM / 5.0
+          WRITE(*,*) 'SUM:', SUM, 'AVG:', AVG
+          STOP
+          END
+
+**Array Handling:** - Implied DO loop for input - Accumulates sum in
+loop - Explicit type conversion for average
+
+### 13. Maximum Element {#maximum-element .unnumbered}
+
+    C     FINDS LARGEST ARRAY ELEMENT
+          PROGRAM MAXVAL
+          REAL ARR(10), MAX
+          INTEGER I
+          READ(*,*) ARR
+          MAX = ARR(1)
+          DO 190 I = 2, 10
+              IF (ARR(I) .GT. MAX) MAX = ARR(I)
+    190   CONTINUE
+          WRITE(*,*) 'MAXIMUM:', MAX
+          STOP
+          END
+
+**Algorithm:** - Initialize max to first element - Linear scan through
+array - Updates max when larger found
+
+### 14. Array Reversal {#array-reversal .unnumbered}
+
+    C     REVERSES ARRAY IN-PLACE
+          PROGRAM REVERSE
+          INTEGER ARR(5), TEMP, I
+          DATA ARR /1,2,3,4,5/
+          DO 200 I = 1, 2
+              TEMP = ARR(I)
+              ARR(I) = ARR(6-I)
+              ARR(6-I) = TEMP
+    200   CONTINUE
+          WRITE(*,*) ARR
+          STOP
+          END
+
+**Swap Logic:** - Swaps elements from ends to center - Loop runs halfway
+(N/2 iterations) - Temporary variable for swap
+
+### 15. Matrix Transpose {#matrix-transpose .unnumbered}
+
+    C     TRANSPOSES 3x3 MATRIX
+          PROGRAM TRANSPOSE
+          INTEGER A(3,3), B(3,3), I, J
+          READ(*,*) ((A(I,J), J=1,3), I=1,3)
+          DO 210 I = 1, 3
+              DO 220 J = 1, 3
+                  B(J,I) = A(I,J)
+    220       CONTINUE
+    210   CONTINUE
+          WRITE(*,*) 'TRANSPOSE:'
+          WRITE(*,*) ((B(I,J), J=1,3), I=1,3)
+          STOP
+          END
+
+**Transposition:** - Creates new matrix `B` - Swaps row/column indices -
+Nested input/output loops
+
+### Challenge: Bubble Sort {#challenge-bubble-sort .unnumbered}
+
+    C     SORTS ARRAY IN ASCENDING ORDER
+          PROGRAM BUBBLE
+          INTEGER ARR(10), I, J, TEMP
+          LOGICAL SWAPPED
+          READ(*,*) ARR
+          DO 230 I = 9, 1, -1
+              SWAPPED = .FALSE.
+              DO 240 J = 1, I
+                  IF (ARR(J) .GT. ARR(J+1)) THEN
+                      TEMP = ARR(J)
+                      ARR(J) = ARR(J+1)
+                      ARR(J+1) = TEMP
+                      SWAPPED = .TRUE.
+                  END IF
+    240       CONTINUE
+              IF (.NOT. SWAPPED) GOTO 250
+    230   CONTINUE
+    250   WRITE(*,*) 'SORTED ARRAY:', ARR
+          STOP
+          END
+
+**Optimization:** - Early exit if no swaps - Outer loop reduces range -
+In-place sorting
