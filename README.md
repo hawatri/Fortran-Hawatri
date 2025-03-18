@@ -213,8 +213,9 @@ Fortran 77 has strict rules for comments:
 
 -   Blank lines are allowed but not considered comments
 
+```{=html}
 <!-- -->
-
+```
     C THIS IS A CLASSIC FORTRAN COMMENT
     * THIS VARIANT IS OFTEN USED FOR HEADERS
     ! SOME COMPILERS SUPPORT THIS (NON-STANDARD)
@@ -3512,8 +3513,9 @@ use cases:
 -   **Key Features**: - Dimensions specified with explicit bounds - Most
     common array type - Memory allocated at program start
 
+```{=html}
 <!-- -->
-
+```
     C 1D: 5 elements (indices 1-5)
     INTEGER SCORES(5)       
 
@@ -3535,8 +3537,9 @@ use cases:
     determined by calling program - Requires explicit interface in some
     cases
 
+```{=html}
 <!-- -->
-
+```
     SUBROUTINE PROCESS(VECTOR, N)
     INTEGER N, VECTOR(N)  ! Adjustable size
     ...
@@ -3553,8 +3556,9 @@ use cases:
 -   **Key Features**: - Last dimension can be asterisk - Limited to
     subprogram parameters - Avoid for complex operations
 
+```{=html}
 <!-- -->
-
+```
     SUBROUTINE PRINT_ARRAY(ARR, SIZE)
     REAL ARR(*)  ! Assumed-size array
     ...
@@ -3572,8 +3576,9 @@ Fortran uses **column-major** storage:
 
 -   Affects loop nesting order
 
+```{=html}
 <!-- -->
-
+```
     REAL MATRIX(3,3)  ! Stored as:
     ! (1,1), (2,1), (3,1), (1,2), (2,2), ...
 
@@ -3585,8 +3590,9 @@ Fortran uses **column-major** storage:
 
 -   Higher dimensions less common
 
+```{=html}
 <!-- -->
-
+```
     C 3D: 2x3x4 array
     INTEGER CUBE(2,3,4)
 
@@ -3603,8 +3609,9 @@ Fortran uses **column-major** storage:
 
 -   No automatic bounds checking
 
+```{=html}
 <!-- -->
-
+```
     REAL GRID(5,5)
     GRID(2,3) = 4.5  ! Single element
 
@@ -3616,8 +3623,9 @@ Fortran uses **column-major** storage:
 
 -   Fortran 77 requires explicit loops
 
+```{=html}
 <!-- -->
-
+```
     INTEGER ARR(10), SUB(5)
     DO 10 I = 1,5
         SUB(I) = ARR(I+2)  ! Elements 3-7
@@ -3631,8 +3639,9 @@ Fortran uses **column-major** storage:
 
 -   Useful for mathematical indices
 
+```{=html}
 <!-- -->
-
+```
     REAL WAVE(-100:100)  ! 201 elements
     WAVE(-100) = 0.0     ! First element
 
@@ -3642,8 +3651,9 @@ Fortran uses **column-major** storage:
 
 -   Different from character arrays in C
 
+```{=html}
 <!-- -->
-
+```
     CHARACTER*15 NAMES(50)  ! 50 names, 15 chars each
     NAMES(1)(1:5) = 'John '  ! Access substring
 
@@ -3655,8 +3665,9 @@ Fortran uses **column-major** storage:
 
 -   Actual and dummy arrays must match rank
 
+```{=html}
 <!-- -->
-
+```
     CALL PRINT_MATRIX(MATRIX)  ! Main program
 
     SUBROUTINE PRINT_MATRIX(ARR)
