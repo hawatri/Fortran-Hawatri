@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>Recursion in Fortran 77 - Fortran Hawatri</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="../styles.css" rel="stylesheet"/>
+</head>
+<body class="bg-white text-black font-serif">
+    <div class="flex flex-col min-h-screen">
+        <!-- Top bar -->
+        <div class="flex justify-end space-x-2 text-xs text-blue-900 px-4 py-1 border-b border-gray-300">
+            <a class="hover:underline" href="#">Log in</a>
+            <button id="dark-mode-toggle" class="hover:underline">Dark mode</button>
+        </div>
+
+        <!-- Main header and nav -->
+        <div class="flex border-b border-gray-300">
+            <!-- Left logo and nav -->
+            <div class="flex flex-col items-center border-r border-gray-300 px-2 py-2 w-20 sm:w-24 md:w-28 lg:w-32">
+                <a aria-label="Visit the main page" class="mb-2" href="../index.html">
+                    <img alt="Fortran Hawatri logo" class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24" height="64" src="https://storage.googleapis.com/a1aa/image/453b8091-abd5-472d-7279-604cce949678.jpg" width="64"/>
+                </a>
+                <nav class="flex flex-col text-xs text-blue-700 space-y-0.5 w-full">
+                    <a class="hover:underline pl-1" href="../index.html">Main Page</a>
+                    <a class="hover:underline pl-1" href="introduction.html">Introduction</a>
+                    <a class="hover:underline pl-1" href="first-program.html">First Program</a>
+                    <a class="hover:underline pl-1" href="coding-rules.html">Coding Rules</a>
+                    <a class="hover:underline pl-1" href="comments.html">Comments</a>
+                    <a class="hover:underline pl-1" href="variables.html">Variables</a>
+                    <a class="hover:underline pl-1" href="input-output.html">Input/Output</a>
+                    <a class="hover:underline pl-1" href="arithmetic.html">Arithmetic</a>
+                    <a class="hover:underline pl-1" href="conditional-statements.html">Conditional Statements</a>
+                    <a class="hover:underline pl-1" href="loops.html">Loops</a>
+                    <a class="hover:underline pl-1" href="arrays.html">Arrays</a>
+                    <a class="hover:underline pl-1" href="functions.html">Functions</a>
+                    <a class="hover:underline pl-1" href="recursion.html">Recursion</a>
+                    <div class="border-t border-gray-300 mt-2 pt-2 text-gray-700 text-[9px] font-normal">
+                        About
+                    </div>
+                    <a class="hover:underline pl-1 text-xs text-blue-700 mt-1" href="#">This site</a>
+                    <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Joining</a>
+                    <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Editing help</a>
+                    <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Recent changes</a>
+                    <div class="border-t border-gray-300 mt-2 pt-2 text-gray-700 text-[9px] font-normal">
+                        Tools
+                    </div>
+                    <a class="hover:underline pl-1 text-xs text-blue-700 mt-1" href="#">What links here</a>
+                    <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Related changes</a>
+                    <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Special pages</a>
+                    <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Printable version</a>
+                    <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Permanent link</a>
+                    <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Page information</a>
+                </nav>
+            </div>
+
+            <!-- Main content area -->
+            <div class="flex-1 flex flex-col min-w-0">
+                <!-- Tabs and search bar -->
+                <div class="flex items-center border-b border-gray-300 px-4 py-1 text-sm text-gray-700">
+                    <div class="flex space-x-1 border border-gray-300 rounded-t-sm bg-white">
+                        <button class="border-b-2 border-white px-3 py-1 text-gray-700 font-normal cursor-default select-none">
+                            Page
+                        </button>
+                        <button class="border-b-2 border-blue-300 px-3 py-1 text-blue-700 hover:bg-blue-50">
+                            Discussion
+                        </button>
+                    </div>
+                    <div class="flex-1"></div>
+                    <div class="flex items-center space-x-2 border border-gray-300 rounded text-gray-700 bg-white px-2 py-1">
+                        <input id="search-input" class="text-xs text-gray-700 placeholder:text-gray-400 outline-none" placeholder="Search Fortran Hawatri" type="search"/>
+                        <button id="search-button" aria-label="Search" class="text-gray-700 hover:text-gray-900">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Read/View source/View history -->
+                <div class="flex items-center border-b border-gray-300 px-4 py-1 text-xs text-gray-700">
+                    <span class="mr-2">Read</span>
+                    <a class="text-blue-700 hover:underline mr-2" href="#">View source</a>
+                    <a class="text-blue-700 hover:underline" href="#">View history</a>
+                </div>
+
+                <!-- Page title -->
+                <h1 class="text-xl font-serif font-normal px-4 pt-4 pb-2 border-b border-gray-300">
+                    Recursion in Fortran 77
+                </h1>
+
+                <!-- Content -->
+                <div class="flex flex-col md:flex-row px-4 py-4 space-y-4 md:space-y-0 md:space-x-4">
+                    <!-- Left column -->
+                    <div class="flex-1 bg-[#dbe9f9] border border-gray-300 p-4 min-w-0">
+                        <div class="mb-4">
+                            <h2 class="font-bold text-lg mb-2">Conceptual Overview</h2>
+                            <p class="text-sm mb-4">
+                                Recursion is a programming technique where a function calls itself to solve smaller instances of the same problem. A recursive function typically consists of:
+                            </p>
+                            <ul class="list-disc list-inside space-y-1 text-sm mb-4">
+                                <li><strong>Base Case</strong>: Termination condition preventing infinite loops</li>
+                                <li><strong>Recursive Case</strong>: Function calls itself with modified parameters</li>
+                            </ul>
+
+                            <h2 class="font-bold text-lg mb-2">Fortran 77 Implementation Challenges</h2>
+                            <div class="overflow-x-auto mb-4">
+                                <table class="min-w-full border border-gray-300">
+                                    <thead>
+                                        <tr class="bg-gray-100">
+                                            <th class="border border-gray-300 px-4 py-2 text-left">Challenge</th>
+                                            <th class="border border-gray-300 px-4 py-2 text-left">Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="border border-gray-300 px-4 py-2">No Official Support</td>
+                                            <td class="border border-gray-300 px-4 py-2">Original Fortran 77 standard prohibits recursion</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-300 px-4 py-2">Compiler Extensions</td>
+                                            <td class="border border-gray-300 px-4 py-2">Some modern compilers (e.g., gfortran) allow recursion with flags</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-300 px-4 py-2">Stack Limitations</td>
+                                            <td class="border border-gray-300 px-4 py-2">Deep recursion may cause stack overflows</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h2 class="font-bold text-lg mb-2">Enabling Recursion in Modern Compilers</h2>
+                            <p class="text-sm mb-4">
+                                Example compilation flags:
+                            </p>
+                            <div class="bg-gray-100 p-3 mb-4 font-mono text-sm overflow-x-auto">
+                                <pre><code>gfortran -frecursive program.f  # GNU Fortran
+ifort -recursive program.f      # Intel Fortran</code></pre>
+                            </div>
+
+                            <h2 class="font-bold text-lg mb-2">Example 1: Factorial Calculation</h2>
+                            <div class="bg-gray-100 p-3 mb-4 font-mono text-sm overflow-x-auto">
+                                <pre><code>C     RECURSIVE FACTORIAL FUNCTION
+      RECURSIVE INTEGER FUNCTION FACT(N) RESULT(RES)
+      INTEGER N
+      IF (N <= 0) THEN
+          RES = 1
+      ELSE
+          RES = N * FACT(N-1)
+      END IF
+      END
+
+C     MAIN PROGRAM
+      PROGRAM MAIN
+      INTEGER FACT
+      WRITE(*,*) '5! =', FACT(5)
+      STOP
+      END</code></pre>
+                            </div>
+
+                            <h3 class="font-bold text-base mb-2">Components</h3>
+                            <ul class="list-disc list-inside space-y-1 text-sm mb-4">
+                                <li><code>RECURSIVE</code> keyword declares recursive capability</li>
+                                <li><code>RESULT</code> clause specifies return variable</li>
+                                <li>Base case: n ≤ 0 returns 1</li>
+                                <li>Recursive case: n × fact(n-1)</li>
+                            </ul>
+
+                            <h2 class="font-bold text-lg mb-2">Example 2: Fibonacci Sequence</h2>
+                            <div class="bg-gray-100 p-3 mb-4 font-mono text-sm overflow-x-auto">
+                                <pre><code>C     RECURSIVE FIBONACCI
+      RECURSIVE INTEGER FUNCTION FIB(N) RESULT(RES)
+      INTEGER N
+      IF (N <= 0) THEN
+          RES = 0
+      ELSE IF (N == 1) THEN
+          RES = 1
+      ELSE
+          RES = FIB(N-1) + FIB(N-2)
+      END IF
+      END
+
+      PROGRAM MAIN
+      INTEGER FIB
+      WRITE(*,*) 'Fib(10) =', FIB(10)
+      STOP
+      END</code></pre>
+                            </div>
+
+                            <h2 class="font-bold text-lg mb-2">Key Considerations</h2>
+                            <div class="overflow-x-auto mb-4">
+                                <table class="min-w-full border border-gray-300">
+                                    <thead>
+                                        <tr class="bg-gray-100">
+                                            <th class="border border-gray-300 px-4 py-2 text-left">Aspect</th>
+                                            <th class="border border-gray-300 px-4 py-2 text-left">Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="border border-gray-300 px-4 py-2">Stack Depth</td>
+                                            <td class="border border-gray-300 px-4 py-2">Limited by compiler/memory settings</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-300 px-4 py-2">Performance</td>
+                                            <td class="border border-gray-300 px-4 py-2">Generally slower than iteration</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-300 px-4 py-2">Memory Use</td>
+                                            <td class="border border-gray-300 px-4 py-2">Grows linearly with recursion depth</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-300 px-4 py-2">Readability</td>
+                                            <td class="border border-gray-300 px-4 py-2">Often clearer for mathematical problems</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h2 class="font-bold text-lg mb-2">Appropriate Use Cases</h2>
+                            <ul class="list-disc list-inside space-y-1 text-sm mb-4">
+                                <li>Mathematical series (factorial, Fibonacci)</li>
+                                <li>Tree traversals (in hierarchical data structures)</li>
+                                <li>Divide-and-conquer algorithms (QuickSort)</li>
+                                <li>Backtracking algorithms (permutations)</li>
+                            </ul>
+
+                            <h2 class="font-bold text-lg mb-2">Performance Comparison: Recursive vs Iterative</h2>
+                            <h3 class="font-bold text-base mb-2">Iterative Factorial</h3>
+                            <div class="bg-gray-100 p-3 mb-4 font-mono text-sm overflow-x-auto">
+                                <pre><code>C     ITERATIVE FACTORIAL
+      INTEGER FUNCTION ITER_FACT(N)
+      INTEGER N, I
+      ITER_FACT = 1
+      DO 10 I = 1, N
+          ITER_FACT = ITER_FACT * I
+10    CONTINUE
+      END</code></pre>
+                            </div>
+
+                            <h3 class="font-bold text-base mb-2">Advantages of Iteration</h3>
+                            <ul class="list-disc list-inside space-y-1 text-sm mb-4">
+                                <li>Fixed memory usage (O(1))</li>
+                                <li>Faster execution (no function call overhead)</li>
+                                <li>No stack overflow risk</li>
+                            </ul>
+
+                            <h2 class="font-bold text-lg mb-2">Recursion Best Practices</h2>
+                            <ol class="list-decimal list-inside space-y-1 text-sm mb-4">
+                                <li>Always define clear base cases</li>
+                                <li>Limit recursion depth (&lt;1000 levels)</li>
+                                <li>Prefer iteration for performance-critical code</li>
+                                <li>Use compiler warnings (-Wall -Wextra)</li>
+                                <li>Test across different compilers</li>
+                            </ol>
+
+                            <h2 class="font-bold text-lg mb-2">Advanced Example: Binary Search</h2>
+                            <div class="bg-gray-100 p-3 mb-4 font-mono text-sm overflow-x-auto">
+                                <pre><code>C     RECURSIVE BINARY SEARCH
+      RECURSIVE INTEGER FUNCTION BSEARCH(ARR, L, R, X) RESULT(INDEX)
+      INTEGER ARR(*), L, R, X, MID
+      IF (R >= L) THEN
+          MID = L + (R - L)/2
+          IF (ARR(MID) == X) THEN
+              INDEX = MID
+          ELSE IF (ARR(MID) > X) THEN
+              INDEX = BSEARCH(ARR, L, MID-1, X)
+          ELSE
+              INDEX = BSEARCH(ARR, MID+1, R, X)
+          END IF
+      ELSE
+          INDEX = -1
+      END IF
+      END
+
+      PROGRAM MAIN
+      INTEGER ARR(5), BSEARCH
+      DATA ARR /2,4,6,8,10/
+      WRITE(*,*) 'Found at:', BSEARCH(ARR,1,5,8)
+      STOP
+      END</code></pre>
+                            </div>
+
+                            <h2 class="font-bold text-lg mb-2">Limitations and Risks</h2>
+                            <ul class="list-disc list-inside space-y-1 text-sm mb-4">
+                                <li><strong>Stack Overflow</strong>: Deep recursion may crash program</li>
+                                <li><strong>Portability</strong>: Non-standard across compilers</li>
+                                <li><strong>Debugging Difficulty</strong>: Complex call stacks</li>
+                                <li><strong>Memory Efficiency</strong>: Worse than iteration</li>
+                            </ul>
+
+                            <h2 class="font-bold text-lg mb-2">Historical Context</h2>
+                            <p class="text-sm mb-4">
+                                Original Fortran 77 restrictions stemmed from:
+                            </p>
+                            <ul class="list-disc list-inside space-y-1 text-sm mb-4">
+                                <li>Early computer memory limitations</li>
+                                <li>Static memory allocation requirements</li>
+                                <li>Focus on numerical/scientific computations</li>
+                            </ul>
+
+                            <h2 class="font-bold text-lg mb-2">Modern Alternatives</h2>
+                            <p class="text-sm mb-4">
+                                For projects requiring recursion:
+                            </p>
+                            <ul class="list-disc list-inside space-y-1 text-sm mb-4">
+                                <li>Use Fortran 90+ with standard recursion support</li>
+                                <li>Implement recursive algorithms iteratively</li>
+                                <li>Combine Fortran with recursive-friendly languages</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Right column -->
+                    <div class="flex-1 bg-[#dbe9f9] border border-gray-300 p-4 min-w-0">
+                        <h2 class="font-bold bg-[#c3d5e9] p-2 border border-gray-300 mb-3 text-sm">
+                            Quick Links
+                        </h2>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-blue-700">
+                            <li><a class="hover:underline" href="introduction.html">Introduction</a></li>
+                            <li><a class="hover:underline" href="first-program.html">First Program</a></li>
+                            <li><a class="hover:underline" href="coding-rules.html">Coding Rules</a></li>
+                            <li><a class="hover:underline" href="comments.html">Comments</a></li>
+                            <li><a class="hover:underline" href="variables.html">Variables</a></li>
+                            <li><a class="hover:underline" href="input-output.html">Input/Output</a></li>
+                            <li><a class="hover:underline" href="arithmetic.html">Arithmetic</a></li>
+                            <li><a class="hover:underline" href="conditional-statements.html">Conditional Statements</a></li>
+                            <li><a class="hover:underline" href="loops.html">Loops</a></li>
+                            <li><a class="hover:underline" href="arrays.html">Arrays</a></li>
+                            <li><a class="hover:underline" href="functions.html">Functions</a></li>
+                            <li><a class="hover:underline" href="recursion.html">Recursion</a></li>
+                        </ul>
+
+                        <h2 class="font-bold bg-[#c3d5e9] p-2 border border-gray-300 mb-3 text-sm mt-4">
+                            Examples
+                        </h2>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-blue-700">
+                            <li><a class="hover:underline" href="#factorial">Factorial Calculation</a></li>
+                            <li><a class="hover:underline" href="#fibonacci">Fibonacci Sequence</a></li>
+                            <li><a class="hover:underline" href="#binary">Binary Search</a></li>
+                            <li><a class="hover:underline" href="#iterative">Iterative vs Recursive</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Welcome box -->
+                <div class="border border-gray-300 mx-4 mb-4 p-4">
+                    <p class="text-center text-base">
+                        Welcome to <a class="text-blue-700 hover:underline font-sans" href="#">Fortran Hawatri</a>
+                    </p>
+                    <p class="text-center text-xs">
+                        Your comprehensive guide to learning Fortran 77 programming language.
+                    </p>
+                    <p class="text-center text-xs">
+                        Continue with <a class="text-blue-700 hover:underline" href="../index.html">Main Page</a>!
+                    </p>
+                </div>
+
+                <!-- Display short/expanded view -->
+                <div class="bg-blue-50 border border-blue-200 mx-4 mb-4 p-2 text-xs font-bold">
+                    <span>Display:</span>
+                    <a class="text-blue-700 hover:underline" href="#">Short view</a>
+                    <span>- Expanded view</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../script.js"></script>
+</body>
+</html>

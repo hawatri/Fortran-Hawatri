@@ -1,0 +1,16 @@
+/* Custom scrollbar for left nav */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 3px;
+}
+
+/* Dark mode styles */
+.dark ::-webkit-scrollbar-thumb {
+  background-color: #4a5568;
+}
+
+/* Additional styles can be added here */ 

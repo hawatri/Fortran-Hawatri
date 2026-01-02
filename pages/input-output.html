@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>Input/Output Operations - Fortran Hawatri</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="../styles.css" rel="stylesheet"/>
+</head>
+<body class="bg-white text-black font-serif">
+    <div class="flex flex-col min-h-screen">
+        <!-- Top bar -->
+        <div class="flex justify-end space-x-2 text-xs text-blue-900 px-4 py-1 border-b border-gray-300">
+            <a class="hover:underline" href="#">Log in</a>
+            <button id="dark-mode-toggle" class="hover:underline">Dark mode</button>
+        </div>
+
+        <!-- Main header and nav -->
+        <div class="flex border-b border-gray-300">
+            <!-- Left logo and nav -->
+            <div class="flex flex-col items-center border-r border-gray-300 px-2 py-2 w-20 sm:w-24 md:w-28 lg:w-32">
+                <a aria-label="Visit the main page" class="mb-2" href="../index.html">
+                    <img alt="Fortran Hawatri logo" class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24" height="64" src="https://storage.googleapis.com/a1aa/image/453b8091-abd5-472d-7279-604cce949678.jpg" width="64"/>
+                </a>
+                <nav class="flex flex-col text-xs text-blue-700 space-y-0.5 w-full">
+                    <a class="hover:underline pl-1" href="../index.html">Main Page</a>
+                    <a class="hover:underline pl-1" href="introduction.html">Introduction</a>
+                    <a class="hover:underline pl-1" href="first-program.html">First Program</a>
+                    <a class="hover:underline pl-1" href="coding-rules.html">Coding Rules</a>
+                    <a class="hover:underline pl-1" href="comments.html">Comments</a>
+                    <a class="hover:underline pl-1" href="variables.html">Variables</a>
+                    <a class="hover:underline pl-1" href="input-output.html">Input/Output</a>
+                    <a class="hover:underline pl-1" href="arithmetic.html">Arithmetic</a>
+                    <a class="hover:underline pl-1" href="conditional-statements.html">Conditional Statements</a>
+                    <a class="hover:underline pl-1" href="loops.html">Loops</a>
+                    <a class="hover:underline pl-1" href="arrays.html">Arrays</a>
+                    <a class="hover:underline pl-1" href="functions.html">Functions</a>
+                    <a class="hover:underline pl-1" href="recursion.html">Recursion</a>
+                    <div class="border-t border-gray-300 mt-2 pt-2 text-gray-700 text-[9px] font-normal">
+                        About
+                    </div>
+                    <a class="hover:underline pl-1 text-xs text-blue-700 mt-1" href="#">This site</a>
+                    <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Joining</a>
+                    <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Editing help</a>
+                    <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Recent changes</a>
+                    <div class="border-t border-gray-300 mt-2 pt-2 text-gray-700 text-[9px] font-normal">
+                        Tools
+                    </div>
+                    <a class="hover:underline pl-1 text-xs text-blue-700 mt-1" href="#">What links here</a>
+                    <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Related changes</a>
+                    <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Special pages</a>
+                    <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Printable version</a>
+                    <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Permanent link</a>
+                    <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Page information</a>
+                </nav>
+            </div>
+
+            <!-- Main content area -->
+            <div class="flex-1 flex flex-col min-w-0">
+                <!-- Tabs and search bar -->
+                <div class="flex items-center border-b border-gray-300 px-4 py-1 text-sm text-gray-700">
+                    <div class="flex space-x-1 border border-gray-300 rounded-t-sm bg-white">
+                        <button class="border-b-2 border-white px-3 py-1 text-gray-700 font-normal cursor-default select-none">
+                            Page
+                        </button>
+                        <button class="border-b-2 border-blue-300 px-3 py-1 text-blue-700 hover:bg-blue-50">
+                            Discussion
+                        </button>
+                    </div>
+                    <div class="flex-1"></div>
+                    <div class="flex items-center space-x-2 border border-gray-300 rounded text-gray-700 bg-white px-2 py-1">
+                        <input id="search-input" class="text-xs text-gray-700 placeholder:text-gray-400 outline-none" placeholder="Search Fortran Hawatri" type="search"/>
+                        <button id="search-button" aria-label="Search" class="text-gray-700 hover:text-gray-900">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Read/View source/View history -->
+                <div class="flex items-center border-b border-gray-300 px-4 py-1 text-xs text-gray-700">
+                    <span class="mr-2">Read</span>
+                    <a class="text-blue-700 hover:underline mr-2" href="#">View source</a>
+                    <a class="text-blue-700 hover:underline" href="#">View history</a>
+                </div>
+
+                <!-- Page title -->
+                <h1 class="text-xl font-serif font-normal px-4 pt-4 pb-2 border-b border-gray-300">
+                    Input/Output Operations in Fortran 77
+                </h1>
+
+                <!-- Content -->
+                <div class="flex flex-col md:flex-row px-4 py-4 space-y-4 md:space-y-0 md:space-x-4">
+                    <!-- Left column -->
+                    <div class="flex-1 bg-[#dbe9f9] border border-gray-300 p-4 min-w-0">
+                        <div class="mb-4">
+                            <h2 class="font-bold text-lg mb-2">Basic Input-Process-Output Workflow</h2>
+                            <p class="text-sm mb-4">
+                                Fortran 77 programs typically follow this pattern:
+                            </p>
+                            <ol class="list-decimal list-inside space-y-1 text-sm mb-4">
+                                <li>Prompt user with WRITE(*,*)</li>
+                                <li>Read input with READ(*,*)</li>
+                                <li>Process data</li>
+                                <li>Display results with WRITE(*,*)</li>
+                            </ol>
+
+                            <h2 class="font-bold text-lg mb-2">Single Variable Example</h2>
+                            <pre class="bg-gray-100 p-4 mb-4 text-sm overflow-x-auto">
+C     PROGRAM: AGE_CHECKER
+C     PURPOSE: DEMONSTRATE SINGLE VARIABLE INPUT
+      PROGRAM AGE_CHECK
+      INTEGER AGE
+C     DISPLAY PROMPT
+      WRITE(*,*) 'ENTER YOUR AGE:'
+C     READ INTEGER INPUT
+      READ(*,*) AGE
+C     DISPLAY RESULT
+      WRITE(*,*) 'IN 10 YEARS YOU WILL BE:', AGE + 10
+      STOP
+      END</pre>
+
+                            <h2 class="font-bold text-lg mb-2">Multiple Variables Example</h2>
+                            <pre class="bg-gray-100 p-4 mb-4 text-sm overflow-x-auto">
+C     PROGRAM: RECTANGLE_AREA
+C     INPUT: LENGTH AND WIDTH
+C     OUTPUT: CALCULATED AREA
+      PROGRAM RECT_AREA
+      REAL LENGTH, WIDTH, AREA
+C     GET DIMENSIONS
+      WRITE(*,*) 'ENTER LENGTH AND WIDTH (SEPARATE BY SPACE):'
+      READ(*,*) LENGTH, WIDTH
+C     CALCULATE AND DISPLAY
+      AREA = LENGTH * WIDTH
+      WRITE(*,*) 'AREA OF RECTANGLE:', AREA
+      STOP
+      END</pre>
+
+                            <h2 class="font-bold text-lg mb-2">Formatted Input/Output</h2>
+                            <p class="text-sm mb-4">
+                                Use FORMAT statements for precise control over input/output:
+                            </p>
+                            <pre class="bg-gray-100 p-4 mb-4 text-sm overflow-x-auto">
+      PROGRAM FORMAT_EX
+      REAL X, Y
+      INTEGER N
+C     FORMAT STATEMENTS
+100   FORMAT(F10.2)    ! REAL NUMBER, 10 WIDTH, 2 DECIMALS
+200   FORMAT(I5)       ! INTEGER, 5 WIDTH
+300   FORMAT('X =',F8.2,' Y =',F8.2)  ! MIXED FORMAT
+C     READ WITH FORMAT
+      READ(*,100) X
+      READ(*,200) N
+C     WRITE WITH FORMAT
+      Y = X * N
+      WRITE(*,300) X, Y
+      STOP
+      END</pre>
+
+                            <h2 class="font-bold text-lg mb-2">Common Format Specifiers</h2>
+                            <div class="overflow-x-auto mb-4">
+                                <table class="min-w-full border border-gray-300">
+                                    <thead>
+                                        <tr class="bg-gray-100">
+                                            <th class="border border-gray-300 px-4 py-2 text-left">Specifier</th>
+                                            <th class="border border-gray-300 px-4 py-2 text-left">Description</th>
+                                            <th class="border border-gray-300 px-4 py-2 text-left">Example</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="border border-gray-300 px-4 py-2">Iw</td>
+                                            <td class="border border-gray-300 px-4 py-2">Integer, width w</td>
+                                            <td class="border border-gray-300 px-4 py-2">I5 for 12345</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-300 px-4 py-2">Fw.d</td>
+                                            <td class="border border-gray-300 px-4 py-2">Real, width w, d decimals</td>
+                                            <td class="border border-gray-300 px-4 py-2">F8.2 for 123.45</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-300 px-4 py-2">Ew.d</td>
+                                            <td class="border border-gray-300 px-4 py-2">Scientific notation</td>
+                                            <td class="border border-gray-300 px-4 py-2">E10.3 for 1.234E+02</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-300 px-4 py-2">Aw</td>
+                                            <td class="border border-gray-300 px-4 py-2">Character, width w</td>
+                                            <td class="border border-gray-300 px-4 py-2">A10 for 'Hello'</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-300 px-4 py-2">Lw</td>
+                                            <td class="border border-gray-300 px-4 py-2">Logical, width w</td>
+                                            <td class="border border-gray-300 px-4 py-2">L2 for T or F</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h2 class="font-bold text-lg mb-2">File Input/Output</h2>
+                            <p class="text-sm mb-4">
+                                Reading from and writing to files:
+                            </p>
+                            <pre class="bg-gray-100 p-4 mb-4 text-sm overflow-x-auto">
+      PROGRAM FILE_IO
+      INTEGER UNIT
+      REAL DATA(100)
+C     OPEN FILE FOR READING
+      UNIT = 10
+      OPEN(UNIT, FILE='input.dat', STATUS='OLD')
+C     READ DATA
+      READ(UNIT,*) (DATA(I), I=1,100)
+      CLOSE(UNIT)
+C     OPEN FILE FOR WRITING
+      OPEN(UNIT, FILE='output.dat', STATUS='NEW')
+C     WRITE RESULTS
+      WRITE(UNIT,*) 'PROCESSED DATA:'
+      WRITE(UNIT,*) (DATA(I), I=1,100)
+      CLOSE(UNIT)
+      STOP
+      END</pre>
+
+                            <h2 class="font-bold text-lg mb-2">Common I/O Errors</h2>
+                            <ul class="list-disc list-inside space-y-1 text-sm mb-4">
+                                <li><strong>Format Mismatch</strong>: Input doesn't match format specifier</li>
+                                <li><strong>File Not Found</strong>: Attempting to read non-existent file</li>
+                                <li><strong>Unit Number Conflict</strong>: Using same unit for multiple files</li>
+                                <li><strong>Buffer Overflow</strong>: Reading more data than array size</li>
+                                <li><strong>Missing CLOSE</strong>: Forgetting to close files</li>
+                            </ul>
+
+                            <h2 class="font-bold text-lg mb-2">Best Practices</h2>
+                            <ul class="list-disc list-inside space-y-1 text-sm mb-4">
+                                <li>Always check for I/O errors</li>
+                                <li>Use meaningful format specifiers</li>
+                                <li>Close files when done</li>
+                                <li>Use consistent unit numbers</li>
+                                <li>Include error handling</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Right column -->
+                    <div class="flex-1 bg-[#dbe9f9] border border-gray-300 p-4 min-w-0">
+                        <h2 class="font-bold bg-[#c3d5e9] p-2 border border-gray-300 mb-3 text-sm">
+                            Quick Links
+                        </h2>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-blue-700">
+                            <li><a class="hover:underline" href="introduction.html">Introduction</a></li>
+                            <li><a class="hover:underline" href="first-program.html">First Program</a></li>
+                            <li><a class="hover:underline" href="coding-rules.html">Coding Rules</a></li>
+                            <li><a class="hover:underline" href="comments.html">Comments</a></li>
+                            <li><a class="hover:underline" href="variables.html">Variables</a></li>
+                            <li><a class="hover:underline" href="input-output.html">Input/Output</a></li>
+                            <li><a class="hover:underline" href="arithmetic.html">Arithmetic</a></li>
+                            <li><a class="hover:underline" href="conditional-statements.html">Conditional Statements</a></li>
+                            <li><a class="hover:underline" href="loops.html">Loops</a></li>
+                            <li><a class="hover:underline" href="arrays.html">Arrays</a></li>
+                            <li><a class="hover:underline" href="functions.html">Functions</a></li>
+                            <li><a class="hover:underline" href="recursion.html">Recursion</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Welcome box -->
+                <div class="border border-gray-300 mx-4 mb-4 p-4">
+                    <p class="text-center text-base">
+                        Welcome to <a class="text-blue-700 hover:underline font-sans" href="#">Fortran Hawatri</a>
+                    </p>
+                    <p class="text-center text-xs">
+                        Your comprehensive guide to learning Fortran 77 programming language.
+                    </p>
+                    <p class="text-center text-xs">
+                        Continue with <a class="text-blue-700 hover:underline" href="conditional-statements.html">Control Structures</a>!
+                    </p>
+                </div>
+
+                <!-- Display short/expanded view -->
+                <div class="bg-blue-50 border border-blue-200 mx-4 mb-4 p-2 text-xs font-bold">
+                    <span>Display:</span>
+                    <a class="text-blue-700 hover:underline" href="#">Short view</a>
+                    <span>- Expanded view</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../script.js"></script>
+</body>
+</html>

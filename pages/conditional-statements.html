@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>Conditional Statements - Fortran Hawatri</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="../styles.css" rel="stylesheet"/>
+</head>
+<body class="bg-white text-black font-serif">
+    <div class="flex flex-col min-h-screen">
+        <!-- Top bar -->
+        <div class="flex justify-end space-x-2 text-xs text-blue-900 px-4 py-1 border-b border-gray-300">
+            <a class="hover:underline" href="#">Log in</a>
+            <button id="dark-mode-toggle" class="hover:underline">Dark mode</button>
+        </div>
+
+        <!-- Main header and nav -->
+        <div class="flex border-b border-gray-300">
+            <!-- Left logo and nav -->
+            <div class="flex flex-col items-center border-r border-gray-300 px-2 py-2 w-20 sm:w-24 md:w-28 lg:w-32">
+                <a aria-label="Visit the main page" class="mb-2" href="../index.html">
+                    <img alt="Fortran Hawatri logo" class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24" height="64" src="https://storage.googleapis.com/a1aa/image/453b8091-abd5-472d-7279-604cce949678.jpg" width="64"/>
+                </a>
+                <nav class="flex flex-col text-xs text-blue-700 space-y-0.5 w-full">
+                    <a class="hover:underline pl-1" href="../index.html">Main Page</a>
+                    <a class="hover:underline pl-1" href="introduction.html">Introduction</a>
+                    <a class="hover:underline pl-1" href="first-program.html">First Program</a>
+                    <a class="hover:underline pl-1" href="coding-rules.html">Coding Rules</a>
+                    <a class="hover:underline pl-1" href="comments.html">Comments</a>
+                    <a class="hover:underline pl-1" href="variables.html">Variables</a>
+                    <a class="hover:underline pl-1" href="input-output.html">Input/Output</a>
+                    <a class="hover:underline pl-1" href="arithmetic.html">Arithmetic</a>
+                    <a class="hover:underline pl-1" href="conditional-statements.html">Conditional Statements</a>
+                    <a class="hover:underline pl-1" href="loops.html">Loops</a>
+                    <a class="hover:underline pl-1" href="arrays.html">Arrays</a>
+                    <a class="hover:underline pl-1" href="functions.html">Functions</a>
+                    <a class="hover:underline pl-1" href="recursion.html">Recursion</a>
+                    <div class="border-t border-gray-300 mt-2 pt-2 text-gray-700 text-[9px] font-normal">
+                        About
+                    </div>
+                    <a class="hover:underline pl-1 text-xs text-blue-700 mt-1" href="#">This site</a>
+                    <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Joining</a>
+                    <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Editing help</a>
+                    <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Recent changes</a>
+                    <div class="border-t border-gray-300 mt-2 pt-2 text-gray-700 text-[9px] font-normal">
+                        Tools
+                    </div>
+                    <a class="hover:underline pl-1 text-xs text-blue-700 mt-1" href="#">What links here</a>
+                    <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Related changes</a>
+                    <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Special pages</a>
+                    <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Printable version</a>
+                    <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Permanent link</a>
+                    <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Page information</a>
+                </nav>
+            </div>
+
+            <!-- Main content area -->
+            <div class="flex-1 flex flex-col min-w-0">
+                <!-- Tabs and search bar -->
+                <div class="flex items-center border-b border-gray-300 px-4 py-1 text-sm text-gray-700">
+                    <div class="flex space-x-1 border border-gray-300 rounded-t-sm bg-white">
+                        <button class="border-b-2 border-white px-3 py-1 text-gray-700 font-normal cursor-default select-none">
+                            Page
+                        </button>
+                        <button class="border-b-2 border-blue-300 px-3 py-1 text-blue-700 hover:bg-blue-50">
+                            Discussion
+                        </button>
+                    </div>
+                    <div class="flex-1"></div>
+                    <div class="flex items-center space-x-2 border border-gray-300 rounded text-gray-700 bg-white px-2 py-1">
+                        <input id="search-input" class="text-xs text-gray-700 placeholder:text-gray-400 outline-none" placeholder="Search Fortran Hawatri" type="search"/>
+                        <button id="search-button" aria-label="Search" class="text-gray-700 hover:text-gray-900">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Read/View source/View history -->
+                <div class="flex items-center border-b border-gray-300 px-4 py-1 text-xs text-gray-700">
+                    <span class="mr-2">Read</span>
+                    <a class="text-blue-700 hover:underline mr-2" href="#">View source</a>
+                    <a class="text-blue-700 hover:underline" href="#">View history</a>
+                </div>
+
+                <!-- Page title -->
+                <h1 class="text-xl font-serif font-normal px-4 pt-4 pb-2 border-b border-gray-300">
+                    Conditional Statements in Fortran 77
+                </h1>
+
+                <!-- Content -->
+                <div class="flex flex-col md:flex-row px-4 py-4 space-y-4 md:space-y-0 md:space-x-4">
+                    <!-- Left column -->
+                    <div class="flex-1 bg-[#dbe9f9] border border-gray-300 p-4 min-w-0">
+                        <div class="mb-4">
+                            <h2 class="font-bold text-lg mb-2">Types of Conditional Statements</h2>
+                            <p class="text-sm mb-4">
+                                Fortran 77 provides three main conditional constructs:
+                            </p>
+                            <ul class="list-disc list-inside space-y-1 text-sm mb-4">
+                                <li>Logical IF - Single-line conditional execution</li>
+                                <li>Block IF - Multi-line IF-THEN-ENDIF structure</li>
+                                <li>ELSE IF - Multiple alternative conditions</li>
+                                <li>Nested IF - IF statements within other IF blocks</li>
+                                <li>Arithmetic IF - Three-way branching (legacy)</li>
+                            </ul>
+
+                            <h2 class="font-bold text-lg mb-2">Relational Operators</h2>
+                            <div class="overflow-x-auto mb-4">
+                                <table class="min-w-full border border-gray-300">
+                                    <thead>
+                                        <tr class="bg-gray-100">
+                                            <th class="border border-gray-300 px-4 py-2 text-left">Operator</th>
+                                            <th class="border border-gray-300 px-4 py-2 text-left">Meaning</th>
+                                            <th class="border border-gray-300 px-4 py-2 text-left">Example</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="border border-gray-300 px-4 py-2">.EQ.</td>
+                                            <td class="border border-gray-300 px-4 py-2">Equal to</td>
+                                            <td class="border border-gray-300 px-4 py-2">A .EQ. B</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-300 px-4 py-2">.NE.</td>
+                                            <td class="border border-gray-300 px-4 py-2">Not equal to</td>
+                                            <td class="border border-gray-300 px-4 py-2">X .NE. Y</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-300 px-4 py-2">.GT.</td>
+                                            <td class="border border-gray-300 px-4 py-2">Greater than</td>
+                                            <td class="border border-gray-300 px-4 py-2">N .GT. 0</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-300 px-4 py-2">.GE.</td>
+                                            <td class="border border-gray-300 px-4 py-2">Greater than or equal</td>
+                                            <td class="border border-gray-300 px-4 py-2">AGE .GE. 18</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-300 px-4 py-2">.LT.</td>
+                                            <td class="border border-gray-300 px-4 py-2">Less than</td>
+                                            <td class="border border-gray-300 px-4 py-2">TEMP .LT. 32.0</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-300 px-4 py-2">.LE.</td>
+                                            <td class="border border-gray-300 px-4 py-2">Less than or equal</td>
+                                            <td class="border border-gray-300 px-4 py-2">COUNT .LE. 10</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h2 class="font-bold text-lg mb-2">1. Logical IF (Single-Line)</h2>
+                            <p class="text-sm mb-4">
+                                Executes one statement if condition is true:
+                            </p>
+                            <div class="bg-gray-100 p-3 mb-4 font-mono text-sm overflow-x-auto">
+                                <pre><code>C     PROGRAM: SINGLE_LINE_IF
+C     CHECKS IF NUMBER IS POSITIVE
+      PROGRAM LOGIF
+      REAL NUM
+      WRITE(*,*) 'ENTER A NUMBER:'
+      READ(*,*) NUM
+      IF (NUM .GT. 0.0) WRITE(*,*) 'POSITIVE NUMBER'
+      STOP
+      END</code></pre>
+                            </div>
+
+                            <h2 class="font-bold text-lg mb-2">2. Block IF Structure</h2>
+                            <p class="text-sm mb-4">
+                                Executes multiple statements when condition is true:
+                            </p>
+                            <div class="bg-gray-100 p-3 mb-4 font-mono text-sm overflow-x-auto">
+                                <pre><code>C     PROGRAM: TEMPERATURE_CHECK
+C     DEMONSTRATES BLOCK IF
+      PROGRAM BLKIF
+      REAL TEMP
+      WRITE(*,*) 'ENTER TEMPERATURE (°C):'
+      READ(*,*) TEMP
+      
+      IF (TEMP .LT. 0.0) THEN
+          WRITE(*,*) 'WARNING: BELOW FREEZING!'
+          WRITE(*,*) 'TAKE WINTER PRECAUTIONS'
+      ENDIF
+      
+      STOP
+      END</code></pre>
+                            </div>
+
+                            <h2 class="font-bold text-lg mb-2">3. IF-ELSE Structure</h2>
+                            <p class="text-sm mb-4">
+                                Handles alternative conditions:
+                            </p>
+                            <div class="bg-gray-100 p-3 mb-4 font-mono text-sm overflow-x-auto">
+                                <pre><code>C     PROGRAM: GRADE_EVALUATOR
+C     DEMONSTRATES IF-ELSE
+      PROGRAM IFELSE
+      INTEGER SCORE
+      WRITE(*,*) 'ENTER TEST SCORE (0-100):'
+      READ(*,*) SCORE
+      
+      IF (SCORE .GE. 60) THEN
+          WRITE(*,*) 'PASSING GRADE'
+      ELSE
+          WRITE(*,*) 'FAILING GRADE'
+      ENDIF
+      
+      STOP
+      END</code></pre>
+                            </div>
+
+                            <h2 class="font-bold text-lg mb-2">4. ELSE IF Ladder</h2>
+                            <p class="text-sm mb-4">
+                                Handles multiple conditions:
+                            </p>
+                            <div class="bg-gray-100 p-3 mb-4 font-mono text-sm overflow-x-auto">
+                                <pre><code>C     PROGRAM: TAX_BRACKET
+C     DEMONSTRATES ELSE IF
+      PROGRAM TAXCALC
+      REAL INCOME
+      WRITE(*,*) 'ENTER ANNUAL INCOME:'
+      READ(*,*) INCOME
+      
+      IF (INCOME .LE. 50000.0) THEN
+          WRITE(*,*) 'TAX BRACKET: 10%'
+      ELSE IF (INCOME .LE. 100000.0) THEN
+          WRITE(*,*) 'TAX BRACKET: 20%'
+      ELSE IF (INCOME .LE. 250000.0) THEN
+          WRITE(*,*) 'TAX BRACKET: 30%'
+      ELSE
+          WRITE(*,*) 'TAX BRACKET: 40%'
+      ENDIF
+      
+      STOP
+      END</code></pre>
+                            </div>
+
+                            <h2 class="font-bold text-lg mb-2">5. Nested IF Statements</h2>
+                            <p class="text-sm mb-4">
+                                IF blocks within other IF blocks:
+                            </p>
+                            <div class="bg-gray-100 p-3 mb-4 font-mono text-sm overflow-x-auto">
+                                <pre><code>C     PROGRAM: LOGIN_SYSTEM
+C     DEMONSTRATES NESTED IF
+      PROGRAM LOGIN
+      CHARACTER*10 USER
+      INTEGER PASS
+      LOGICAL ADMIN
+      
+      WRITE(*,*) 'ENTER USERNAME:'
+      READ(*,*) USER
+      WRITE(*,*) 'ENTER PASSWORD:'
+      READ(*,*) PASS
+      
+      IF (USER .EQ. 'ADMIN') THEN
+          IF (PASS .EQ. 12345) THEN
+              ADMIN = .TRUE.
+              WRITE(*,*) 'ADMIN ACCESS GRANTED'
+          ELSE
+              WRITE(*,*) 'INCORRECT PASSWORD'
+          ENDIF
+      ELSE
+          WRITE(*,*) 'GUEST ACCESS ONLY'
+      ENDIF
+      
+      STOP
+      END</code></pre>
+                            </div>
+
+                            <h2 class="font-bold text-lg mb-2">6. Arithmetic IF (Legacy)</h2>
+                            <p class="text-sm mb-4">
+                                Three-way branching based on expression sign:
+                            </p>
+                            <div class="bg-gray-100 p-3 mb-4 font-mono text-sm overflow-x-auto">
+                                <pre><code>C     PROGRAM: SIGN_CHECK
+C     DEMONSTRATES ARITHMETIC IF (HISTORICAL)
+      PROGRAM ARIF
+      INTEGER NUM
+      WRITE(*,*) 'ENTER AN INTEGER:'
+      READ(*,*) NUM
+      
+      IF (NUM) 10, 20, 30
+10    WRITE(*,*) 'NEGATIVE NUMBER'
+      GOTO 40
+20    WRITE(*,*) 'ZERO'
+      GOTO 40
+30    WRITE(*,*) 'POSITIVE NUMBER'
+40    STOP
+      END</code></pre>
+                            </div>
+
+                            <h2 class="font-bold text-lg mb-2">Compound Conditions</h2>
+                            <p class="text-sm mb-4">
+                                Combine conditions with logical operators:
+                            </p>
+                            <div class="overflow-x-auto mb-4">
+                                <table class="min-w-full border border-gray-300">
+                                    <thead>
+                                        <tr class="bg-gray-100">
+                                            <th class="border border-gray-300 px-4 py-2 text-left">Operator</th>
+                                            <th class="border border-gray-300 px-4 py-2 text-left">Meaning</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="border border-gray-300 px-4 py-2">.AND.</td>
+                                            <td class="border border-gray-300 px-4 py-2">Both conditions true</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-300 px-4 py-2">.OR.</td>
+                                            <td class="border border-gray-300 px-4 py-2">Either condition true</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-300 px-4 py-2">.NOT.</td>
+                                            <td class="border border-gray-300 px-4 py-2">Inverts condition</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="bg-gray-100 p-3 mb-4 font-mono text-sm overflow-x-auto">
+                                <pre><code>C     PROGRAM: WEATHER_CHECK
+C     DEMONSTRATES COMPOUND CONDITIONS
+      PROGRAM WEATHER
+      REAL TEMP
+      LOGICAL RAINING
+      
+      WRITE(*,*) 'ENTER TEMPERATURE (°C):'
+      READ(*,*) TEMP
+      WRITE(*,*) 'IS IT RAINING? (.TRUE./.FALSE.):'
+      READ(*,*) RAINING
+      
+      IF (TEMP .GT. 25.0 .AND. .NOT. RAINING) THEN
+          WRITE(*,*) 'GOOD DAY FOR BEACH'
+      ELSE IF (TEMP .LT. 5.0 .OR. RAINING) THEN
+          WRITE(*,*) 'STAY INDOORS'
+      ELSE
+          WRITE(*,*) 'NORMAL DAY'
+      ENDIF
+      
+      STOP
+      END</code></pre>
+                            </div>
+
+                            <h2 class="font-bold text-lg mb-2">Common Pitfalls</h2>
+                            <div class="overflow-x-auto mb-4">
+                                <table class="min-w-full border border-gray-300">
+                                    <thead>
+                                        <tr class="bg-gray-100">
+                                            <th class="border border-gray-300 px-4 py-2 text-left">Error</th>
+                                            <th class="border border-gray-300 px-4 py-2 text-left">Solution</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="border border-gray-300 px-4 py-2">Missing ENDIF</td>
+                                            <td class="border border-gray-300 px-4 py-2">Always match IF with ENDIF</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-300 px-4 py-2">Using = instead of .EQ.</td>
+                                            <td class="border border-gray-300 px-4 py-2">Fortran uses .EQ. for equality</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-300 px-4 py-2">No space around operators</td>
+                                            <td class="border border-gray-300 px-4 py-2">.LT. not .LT. (depends on compiler)</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-300 px-4 py-2">Uninitialized variables</td>
+                                            <td class="border border-gray-300 px-4 py-2">Always initialize variables before use</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h2 class="font-bold text-lg mb-2">Best Practices</h2>
+                            <ul class="list-disc list-inside space-y-1 text-sm mb-4">
+                                <li>Use indentation for nested conditionals</li>
+                                <li>Always include ELSE blocks for error handling</li>
+                                <li>Use parentheses for complex logical expressions</li>
+                                <li>Avoid arithmetic IF in new code</li>
+                                <li>Comment complex conditions</li>
+                                <li>Test boundary conditions thoroughly</li>
+                            </ul>
+
+                            <h2 class="font-bold text-lg mb-2">Performance Tips</h2>
+                            <ul class="list-disc list-inside space-y-1 text-sm mb-4">
+                                <li>Order conditions from most to least likely</li>
+                                <li>Use ELSE IF instead of multiple IFs when mutually exclusive</li>
+                                <li>Avoid deep nesting (max 3-4 levels)</li>
+                                <li>Use logical operators instead of nested IFs when possible</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Right column -->
+                    <div class="flex-1 bg-[#dbe9f9] border border-gray-300 p-4 min-w-0">
+                        <h2 class="font-bold bg-[#c3d5e9] p-2 border border-gray-300 mb-3 text-sm">
+                            Quick Links
+                        </h2>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-blue-700">
+                            <li><a class="hover:underline" href="introduction.html">Introduction</a></li>
+                            <li><a class="hover:underline" href="first-program.html">First Program</a></li>
+                            <li><a class="hover:underline" href="coding-rules.html">Coding Rules</a></li>
+                            <li><a class="hover:underline" href="comments.html">Comments</a></li>
+                            <li><a class="hover:underline" href="variables.html">Variables</a></li>
+                            <li><a class="hover:underline" href="input-output.html">Input/Output</a></li>
+                            <li><a class="hover:underline" href="arithmetic.html">Arithmetic</a></li>
+                            <li><a class="hover:underline" href="conditional-statements.html">Conditional Statements</a></li>
+                            <li><a class="hover:underline" href="loops.html">Loops</a></li>
+                            <li><a class="hover:underline" href="arrays.html">Arrays</a></li>
+                            <li><a class="hover:underline" href="functions.html">Functions</a></li>
+                            <li><a class="hover:underline" href="recursion.html">Recursion</a></li>
+                        </ul>
+
+                        <h2 class="font-bold bg-[#c3d5e9] p-2 border border-gray-300 mb-3 text-sm mt-4">
+                            Examples
+                        </h2>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-blue-700">
+                            <li><a class="hover:underline" href="#example1">Simple Logical IF</a></li>
+                            <li><a class="hover:underline" href="#example2">Block IF Structure</a></li>
+                            <li><a class="hover:underline" href="#example3">Even/Odd Checker</a></li>
+                            <li><a class="hover:underline" href="#example4">Grade Calculator</a></li>
+                            <li><a class="hover:underline" href="#example5">Login System</a></li>
+                            <li><a class="hover:underline" href="#example6">Voting Eligibility</a></li>
+                            <li><a class="hover:underline" href="#example7">Arithmetic IF</a></li>
+                            <li><a class="hover:underline" href="#example8">Division Validation</a></li>
+                            <li><a class="hover:underline" href="#example9">Range Checker</a></li>
+                            <li><a class="hover:underline" href="#example10">Simple Calculator</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Welcome box -->
+                <div class="border border-gray-300 mx-4 mb-4 p-4">
+                    <p class="text-center text-base">
+                        Welcome to <a class="text-blue-700 hover:underline font-sans" href="#">Fortran Hawatri</a>
+                    </p>
+                    <p class="text-center text-xs">
+                        Your comprehensive guide to learning Fortran 77 programming language.
+                    </p>
+                    <p class="text-center text-xs">
+                        Continue with <a class="text-blue-700 hover:underline" href="loops.html">Loops in Fortran 77</a>!
+                    </p>
+                </div>
+
+                <!-- Display short/expanded view -->
+                <div class="bg-blue-50 border border-blue-200 mx-4 mb-4 p-2 text-xs font-bold">
+                    <span>Display:</span>
+                    <a class="text-blue-700 hover:underline" href="#">Short view</a>
+                    <span>- Expanded view</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../script.js"></script>
+</body>
+</html>

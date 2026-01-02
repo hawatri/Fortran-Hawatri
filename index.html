@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>Fortran Hawatri - Learn Fortran 77</title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="styles.css" rel="stylesheet"/>
+  <style>
+   /* Custom scrollbar for left nav */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: #cbd5e1;
+      border-radius: 3px;
+    }
+  </style>
+ </head>
+ <body class="bg-white text-black font-serif">
+  <div class="flex flex-col min-h-screen">
+   <!-- Top bar -->
+   <div class="flex justify-end space-x-2 text-xs text-blue-900 px-4 py-1 border-b border-gray-300">
+    <a class="hover:underline" href="#">
+     Log in
+    </a>
+    <button id="dark-mode-toggle" class="hover:underline">
+     Dark mode
+    </button>
+   </div>
+   <!-- Main header and nav -->
+   <div class="flex border-b border-gray-300">
+    <!-- Left logo and nav -->
+    <div class="flex flex-col items-center border-r border-gray-300 px-2 py-2 w-20 sm:w-24 md:w-28 lg:w-32">
+     <a aria-label="Visit the main page" class="mb-2" href="index.html">
+      <img alt="Fortran Hawatri logo" class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24" height="64" src="https://storage.googleapis.com/a1aa/image/453b8091-abd5-472d-7279-604cce949678.jpg" width="64"/>
+     </a>
+     <nav class="flex flex-col text-xs text-blue-700 space-y-0.5 w-full">
+      <a class="hover:underline pl-1" href="index.html">Main Page</a>
+      <a class="hover:underline pl-1" href="pages/introduction.html">Introduction</a>
+      <a class="hover:underline pl-1" href="pages/first-program.html">First Program</a>
+      <a class="hover:underline pl-1" href="pages/coding-rules.html">Coding Rules</a>
+      <a class="hover:underline pl-1" href="pages/comments.html">Comments</a>
+      <a class="hover:underline pl-1" href="pages/variables.html">Variables</a>
+      <a class="hover:underline pl-1" href="pages/input-output.html">Input/Output</a>
+      <a class="hover:underline pl-1" href="pages/arithmetic.html">Arithmetic</a>
+      <a class="hover:underline pl-1" href="pages/conditional-statements.html">Conditional Statements</a>
+      <a class="hover:underline pl-1" href="pages/loops.html">Loops</a>
+      <a class="hover:underline pl-1" href="pages/arrays.html">Arrays</a>
+      <a class="hover:underline pl-1" href="pages/functions.html">Functions</a>
+      <a class="hover:underline pl-1" href="pages/recursion.html">Recursion</a>
+      <div class="border-t border-gray-300 mt-2 pt-2 text-gray-700 text-[9px] font-normal">
+       About
+      </div>
+      <a class="hover:underline pl-1 text-xs text-blue-700 mt-1" href="#">This site</a>
+      <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Joining</a>
+      <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Editing help</a>
+      <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Recent changes</a>
+      <div class="border-t border-gray-300 mt-2 pt-2 text-gray-700 text-[9px] font-normal">
+       Tools
+      </div>
+      <a class="hover:underline pl-1 text-xs text-blue-700 mt-1" href="#">What links here</a>
+      <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Related changes</a>
+      <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Special pages</a>
+      <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Printable version</a>
+      <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Permanent link</a>
+      <a class="hover:underline pl-1 text-xs text-blue-700" href="#">Page information</a>
+     </nav>
+    </div>
+    <!-- Main content area -->
+    <div class="flex-1 flex flex-col min-w-0">
+     <!-- Tabs and search bar -->
+     <div class="flex items-center border-b border-gray-300 px-4 py-1 text-sm text-gray-700">
+      <div class="flex space-x-1 border border-gray-300 rounded-t-sm bg-white">
+       <button class="border-b-2 border-white px-3 py-1 text-gray-700 font-normal cursor-default select-none">
+        Page
+       </button>
+       <button class="border-b-2 border-blue-300 px-3 py-1 text-blue-700 hover:bg-blue-50">
+        Discussion
+       </button>
+      </div>
+      <div class="flex-1"></div>
+      <div class="flex items-center space-x-2 border border-gray-300 rounded text-gray-700 bg-white px-2 py-1">
+       <input id="search-input" class="text-xs text-gray-700 placeholder:text-gray-400 outline-none" placeholder="Search Fortran Hawatri" type="search"/>
+       <button id="search-button" aria-label="Search" class="text-gray-700 hover:text-gray-900">
+        <i class="fas fa-search"></i>
+       </button>
+      </div>
+     </div>
+     <!-- Read/View source/View history -->
+     <div class="flex items-center border-b border-gray-300 px-4 py-1 text-xs text-gray-700">
+      <span class="mr-2">Read</span>
+      <a class="text-blue-700 hover:underline mr-2" href="#">View source</a>
+      <a class="text-blue-700 hover:underline" href="#">View history</a>
+     </div>
+     <!-- Page title -->
+     <h1 class="text-xl font-serif font-normal px-4 pt-4 pb-2 border-b border-gray-300">
+      Fortran Hawatri
+     </h1>
+     <!-- Content -->
+     <div class="flex flex-col md:flex-row px-4 py-4 space-y-4 md:space-y-0 md:space-x-4">
+      <!-- Left column -->
+      <div class="flex-1 bg-[#dbe9f9] border border-gray-300 p-4 min-w-0">
+       <h2 class="font-bold bg-[#c3d5e9] p-2 border border-gray-300 mb-3 text-sm">
+        Introduction to Fortran 77
+       </h2>
+       <div class="mb-4">
+        <p class="text-sm mb-4">
+         Fortran, short for Formula Translation, is one of the oldest high-level programming languages, with its origins dating back to the 1950s. Developed by IBM for scientific and engineering applications, Fortran revolutionized the way numerical computations were performed, enabling researchers and engineers to write programs that were both efficient and portable.
+        </p>
+        <h3 class="font-bold mb-2">What Will You Learn?</h3>
+        <ul class="list-disc list-inside space-y-1 text-sm">
+         <li>The history and evolution of Fortran</li>
+         <li>Basic syntax and data types in Fortran 77</li>
+         <li>Control structures and loops</li>
+         <li>Arrays and subroutines</li>
+         <li>Input/output operations and file handling</li>
+         <li>Common pitfalls and best practices</li>
+         <li>Applications of Fortran 77 in scientific computing</li>
+        </ul>
+       </div>
+      </div>
+      <!-- Right column -->
+      <div class="flex-1 bg-[#dbe9f9] border border-gray-300 p-4 min-w-0">
+       <h2 class="font-bold bg-[#c3d5e9] p-2 border border-gray-300 mb-3 text-sm">
+        Quick Links
+       </h2>
+       <ul class="list-disc list-inside space-y-1 text-sm text-blue-700">
+        <li><a class="hover:underline" href="pages/introduction.html">Introduction</a></li>
+        <li><a class="hover:underline" href="pages/first-program.html">First Program</a></li>
+        <li><a class="hover:underline" href="pages/coding-rules.html">Coding Rules</a></li>
+        <li><a class="hover:underline" href="pages/comments.html">Comments</a></li>
+        <li><a class="hover:underline" href="pages/variables.html">Variables</a></li>
+        <li><a class="hover:underline" href="pages/input-output.html">Input/Output</a></li>
+        <li><a class="hover:underline" href="pages/arithmetic.html">Arithmetic</a></li>
+        <li><a class="hover:underline" href="pages/conditional-statements.html">Conditional Statements</a></li>
+        <li><a class="hover:underline" href="pages/loops.html">Loops</a></li>
+        <li><a class="hover:underline" href="pages/arrays.html">Arrays</a></li>
+        <li><a class="hover:underline" href="pages/functions.html">Functions</a></li>
+        <li><a class="hover:underline" href="pages/recursion.html">Recursion</a></li>
+       </ul>
+      </div>
+     </div>
+     <!-- Welcome box -->
+     <div class="border border-gray-300 mx-4 mb-4 p-4">
+      <p class="text-center text-base">
+       Welcome to <a class="text-blue-700 hover:underline font-sans" href="#">Fortran Hawatri</a>
+      </p>
+      <p class="text-center text-xs">
+       Your comprehensive guide to learning Fortran 77 programming language.
+      </p>
+      <p class="text-center text-xs">
+       Start your journey with our <a class="text-blue-700 hover:underline" href="pages/introduction.html">Introduction</a>!
+      </p>
+     </div>
+     <!-- Display short/expanded view -->
+     <div class="bg-blue-50 border border-blue-200 mx-4 mb-4 p-2 text-xs font-bold">
+      <span>Display:</span>
+      <a class="text-blue-700 hover:underline" href="#">Short view</a>
+      <span>- Expanded view</span>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script src="script.js"></script>
+  <script>
+    // Initialize dark mode based on system preference or saved preference
+    function initializeDarkMode() {
+        const isDarkMode = localStorage.getItem('darkMode') === 'true' || 
+                          (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        if (isDarkMode) {
+            document.body.classList.add('dark');
+            document.body.classList.add('bg-gray-900');
+            document.body.classList.remove('bg-white');
+            document.body.classList.add('text-white');
+            document.body.classList.remove('text-black');
+            document.getElementById('dark-mode-toggle').innerHTML = '<i class="fas fa-sun"></i> Light mode';
+        }
+    }
+
+    // Toggle dark mode
+    function toggleDarkMode() {
+        const isDarkMode = document.body.classList.contains('dark');
+        document.body.classList.toggle('dark');
+        
+        if (isDarkMode) {
+            // Switch to light mode
+            document.body.classList.remove('bg-gray-900');
+            document.body.classList.add('bg-white');
+            document.body.classList.remove('text-white');
+            document.body.classList.add('text-black');
+            localStorage.setItem('darkMode', 'false');
+            document.getElementById('dark-mode-toggle').innerHTML = '<i class="fas fa-moon"></i> Dark mode';
+        } else {
+            // Switch to dark mode
+            document.body.classList.add('bg-gray-900');
+            document.body.classList.remove('bg-white');
+            document.body.classList.add('text-white');
+            document.body.classList.remove('text-black');
+            localStorage.setItem('darkMode', 'true');
+            document.getElementById('dark-mode-toggle').innerHTML = '<i class="fas fa-sun"></i> Light mode';
+        }
+    }
+
+    // Search functionality
+    function performSearch() {
+        const searchTerm = document.getElementById('search-input').value.toLowerCase();
+        if (searchTerm.trim() === '') return;
+        
+        // For now, we'll just alert the search term
+        // In a real implementation, this would search the content
+        alert('Searching for: ' + searchTerm);
+    }
+
+    // Set up event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeDarkMode();
+        
+        // Dark mode toggle
+        document.getElementById('dark-mode-toggle').addEventListener('click', function(e) {
+            e.preventDefault();
+            toggleDarkMode();
+        });
+        
+        // Search functionality
+        document.getElementById('search-button').addEventListener('click', function() {
+            performSearch();
+        });
+        
+        document.getElementById('search-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+    });
+  </script>
+ </body>
+</html>
